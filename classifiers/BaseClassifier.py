@@ -2,6 +2,8 @@
 # base classifier
 
 class BaseClassifier(object):
+	def __init__(self, *args, **kwargs):
+		raise DeprecationWarning('Please use scikitlearn BaseEstimator')
 	def fit(self):
 		"""
 			Fit the data to the classifier
