@@ -16,9 +16,17 @@ def show_wrong_images(X, Y_true, Y_pred):
 	selected_images_ids = random.sample(wrong_images_ids, 8)
 	plt.figure(figsize=(10,11))
 	for id, image_id in enumerate(selected_images_ids):
-	    plt.subplot(4,4,id+1)
-	    plt.imshow(X[image_id], cmap=cm.binary)
-	    plt.title(''.join(['is: ', str(Y_true[image_id]), ' predicted:', str(Y_pred[image_id])]))
+		plt.subplot(4,4,id+1)
+		try:
+			plt.imshow(X[image_id], cmap=cm.binary)
+		except Exception as e:
+			try:
+				plt.imshow(X[image_id][0], cmap=cm.binary)
+			except Exception as e:
+				raise Exception('Failed to display image')
+			#endtry
+		#endtry
+		plt.title(''.join(['is: ', str(Y_true[image_id]), ' predicted:', str(Y_pred[image_id])]))
 
 
 
@@ -33,7 +41,7 @@ def prepare_MNIST(x_location='./data/train_inputs.npy', y_location='./data/train
 	validation_division = int(len(X)*validation_split)
 	top = int(len(X)*max_split)
 
-	X = X.reshape(X.shape[0], PIXELS, PIXELS)
+	X = X.reshape(X.shape[0], 1, PIXELS, PIXELS)
 
 	X_train, X_val = X[:validation_division,:], X[validation_division:top,:]
 	Y_train, Y_val = Y[:validation_division], Y[validation_division:top]
