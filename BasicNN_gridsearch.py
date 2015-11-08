@@ -17,7 +17,7 @@ Y_train = np.load('./data/train_outputs.npy')
 # In[2]:
 
 X_train = X_train.reshape(X_train.shape[0], PIXELS, PIXELS)
-Y_train = Y_train.reshape()
+Y_train = Y_train.astype(np.int32)
 # In[3]:
 
 # data = prepare_MNIST()
@@ -30,7 +30,7 @@ BasicNN = LasagneNeuralNetwork.BasicNN(input_shape=(None, PIXELS, PIXELS))
 
 # In[5]:
 
-gs = grid_search.GridSearchCV(BasicNN, {'hidden_num_units':[100], 'max_epochs':[1, 10, 20, 100], 'update_learning_rate':[0.1,0.01,0.001]}, verbose=10000, cv=2, num_jobs=8)
+gs = grid_search.GridSearchCV(BasicNN, {'hidden_num_units':[100], 'max_epochs':[1, 10, 20, 100], 'update_learning_rate':[0.1,0.01,0.001]}, verbose=10000, cv=2, n_jobs=8)
 
 
 # In[6]:
