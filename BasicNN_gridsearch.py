@@ -7,21 +7,17 @@ from sklearn import grid_search
 import numpy as np
 from classifiers import LasagneNeuralNetwork
 from classifiers.util import quick_save
+from classifiers.ImageTools import PIXELS
+
+X_train = np.load('./data/train_inputs.npy')
+Y_train = np.load('./data/train_outputs.npy')
 
 
-X = np.load('./data/train_inputs.npy')
-Y = np.load('./data/train_outputs.npy')
-
-X_train = X[:int(X.shape[0]*0.95), :]
-Y_train = Y[:int(X.shape[0]*0.95)]
-X_test = X[int(X.shape[0]*0.95):, :]
-Y_test = Y[int(X.shape[0]*0.95):]
 
 # In[2]:
 
-from classifiers.ImageTools import prepare_MNIST, PIXELS
-
-
+X_train = X_train.reshape(X_train.shape[0], PIXELS, PIXELS)
+Y_train = Y_train.reshape()
 # In[3]:
 
 # data = prepare_MNIST()
@@ -29,7 +25,7 @@ from classifiers.ImageTools import prepare_MNIST, PIXELS
 
 # In[4]:
 
-BasicNN = LasagneNeuralNetwork.BasicNN(input_shape=(X_train.shape, PIXELS, PIXELS))
+BasicNN = LasagneNeuralNetwork.BasicNN(input_shape=(None, PIXELS, PIXELS))
 
 
 # In[5]:
@@ -57,6 +53,8 @@ q = pickle.load(open('./NN_gridsearch.pickle', 'r'))
 print q.grid_scores_
 
 X_kaggle = np.load('./data/test_inputs.npy')
+
+X_kaggle = X_kaggle.reshape(X_kaggle.shape[0], PIXELS, PIXELS)
 
 predictions = q.predict(X_kaggle)
 
