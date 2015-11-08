@@ -50,7 +50,7 @@ pickle.dump(gs, open('./NN_gridsearch.pickle', 'w'))
 
 # In[27]:
 
-q = pickle.load(open('./NN_gridsearch', 'r'))
+q = pickle.load(open('./NN_gridsearch.pickle', 'r'))
 
 # In[28]:
 
