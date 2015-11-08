@@ -103,7 +103,8 @@ class LogisticRegression( BaseEstimator, ClassifierMixin ):
 
 		n, m = X.shape
 		assert n == Y.shape[0], 'Y must have same number of observations as X'
-		assert Y.shape[1] == 1, 'Y must be a vector of dimension (n, 1)'
+		Y = Y.reshape(n, 1)
+		# assert Y.shape[1] == 1, 'Y must be a vector of dimension (n, 1)'
 
 		# save the type of the output labels.
 		self.output_type = Y.dtype
