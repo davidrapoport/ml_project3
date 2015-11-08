@@ -39,12 +39,12 @@ import cPickle as pickle
 
 # In[25]:
 
-pickle.dump(gs, open('./tosave.pickle', 'w'))
+pickle.dump(gs, open('./LR_gridsearch.pickle', 'w'))
 
 
 # In[27]:
 
-q = pickle.load(open('./tosave.pickle', 'r'))
+q = pickle.load(open('./LR_gridsearch', 'r'))
 
 
 # In[28]:
