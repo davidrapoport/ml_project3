@@ -34,7 +34,7 @@ BasicNN = LasagneNeuralNetwork.BasicNN(input_shape=(X_train.shape, PIXELS, PIXEL
 
 # In[5]:
 
-gs = grid_search.GridSearchCV(BasicNN, {'hidden_num_units':[1, 10,100], 'max_epochs':[1, 10, 20, 100]}, verbose=10000, cv=2)
+gs = grid_search.GridSearchCV(BasicNN, {'hidden_num_units':[100], 'max_epochs':[1, 10, 20, 100], 'update_learning_rate':[0.1,0.01,0.001]}, verbose=10000, cv=2, num_jobs=8)
 
 
 # In[6]:
