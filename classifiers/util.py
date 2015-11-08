@@ -3,6 +3,7 @@
 """
 
 import numpy as np
+import pandas as pd
 
 def sigmoid( a ):
 	"""	
@@ -99,6 +100,10 @@ def gradient_descent( X, Y, start_weights = False, \
 	#endif
 
 
+def quick_save(predicted, append_name='_'):
+	indicies = list(range(1,len(predicted)+1))
+	submission = pd.DataFrame(indicies, columns=['Id']).join(pd.DataFrame(predicted, columns=['Prediction']))
+	submission.to_csv('predicted'+append_name+'.csv',index=False)
 
 
 
