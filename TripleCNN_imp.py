@@ -135,7 +135,8 @@ net = NeuralNet(
     #optimization parameters
     update=nesterov_momentum,
     update_learning_rate=0.01,
-    max_epochs=max_epochs
+    max_epochs=max_epochs,
+    verbose=1000000
 )
 
 
