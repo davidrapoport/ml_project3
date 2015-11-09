@@ -93,9 +93,9 @@ and search for the optimal set of weights using the \emph{gradient descent algor
 \subsubsection{Fully Connected Feedforward Neural Network}
 
 \subsubsection{Convolution Neural Network}
-The convolution neural network \ref{LeCunn98} is a neural network with specialized layers in which not all neurons are connected to each other. Infact the main component is the subblayer (Fig \ref{convmaxlayer}) which contains the Convolution2D and MaxPool2d pair of layers. As shown in the (simplified) figure, the convolution conducted on the input is tranfromed into a 3D spatial arrangement of neurons. This is then subsampled (by selecting the MAX element from each subsection of the filter) to produce the set of outputs that can be reused in future layers.
+The convolution neural network \ref{LeCunn98} is a neural network with specialized layers in which not all neurons are connected to each other. Infact the main component is the subblayer (Fig \ref{convmaxlayer}) which contains the Convolution2D and MaxPool2d pair of layers. A convolution of an image is the result where each pixel is the weighted sum of its neighbouring pixels (moving window weighted sum). This means that our 2D convolution takes a weighted sum of each neighbouring pixel of the handwritten digit. \emph{num\_filters} is the number of moving windows of size \emph{filter\_size} $\times$ \emph{filter\_size} we do convolutions with. In MaxPooling we select the maximum in a region of size \emph{pool\_size} $\times$ \emph{pool\_size} pixels obtained from the 2D convolution.
 
-Our experiments tested three variants of this using one, two and three Conv-Max sublayers coupled in the architechture shown in Fig \ref{CNNarch}
+As shown in the (simplified) figure, the convolution conducted on the input is transformed into the 3D spatial arrangement of the filters. This is then subsampled (by selecting the MAX element from each subsection of the filter) to produce the set of outputs that can be reused in future layers. In our architecture we stacked $K$ of the Convolution2D-Maxpool sublayers ($K=\{1,2,3,4\}$) and finally ran the outputs through a fully connected dense layer which had the same number of units as \emph{num\_filters} in the last Convolution2D-Maxpool subplayer. To obtain the final output, we ran this through a $p=0.5$ dropout and then into a fully connected dense layer of size $10$ to make the predictions. This is summarized in Fig \ref{CNNarch}. 
 
 \begin{figure}[h]
 	% \centering
@@ -117,7 +117,18 @@ Our experiments tested three variants of this using one, two and three Conv-Max 
 \subsection{Cross-Validation and Choice of Hyperparameters}
 
 \section{Results}
+\subsection{Convolution Neural Network}
+ROC (?) curves are shown in \label{CNN-ROC}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{acc.png}
+	\caption{ROC Curves for our CNN architectures}
+	\label{CNN-ROC}
+\end{figure}
+
+
+\subsection{Spatial Transformer Network}
 
 
 
