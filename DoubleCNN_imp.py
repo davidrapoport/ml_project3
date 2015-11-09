@@ -96,7 +96,7 @@ net = NeuralNet(
 
 
     # convolution layer descriptors
-    conv2d1_num_filters=32,
+    conv2d1_num_filters=16,
     conv2d1_filter_size=(5,5),
     conv2d1_nonlinearity = lasagne.nonlinearities.rectify,
     conv2d1_W = lasagne.init.GlorotUniform(),
@@ -108,7 +108,7 @@ net = NeuralNet(
 #     dropout1_p = 0.5,
     
     # convolution layer descriptors
-    conv2d2_num_filters=64,
+    conv2d2_num_filters=32,
     conv2d2_filter_size=(3,3),
     conv2d2_nonlinearity = lasagne.nonlinearities.rectify,
     conv2d2_W = lasagne.init.GlorotUniform(),
