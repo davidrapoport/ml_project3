@@ -1,0 +1,86 @@
+(49500, 1, 48, 48) (49500,)
+(500, 1, 48, 48) (500,)
+48
+training
+# Neural Network with 79562 learnable parameters
+
+
+## Layer information                                              [55/69]
+
+name      size        total    cap.Y    cap.X    cov.Y    cov.X    filter
+ Y    filter X    field Y    field X
+--------  --------  -------  -------  -------  -------  -------  --------
+--  ----------  ---------  ---------
+input     1x48x48      2304   100.00   100.00   100.00   100.00          
+48          48         48         48
+conv2d1   16x44x44    30976   100.00   100.00    10.42    10.42          
+ 5           5          5          5
+maxpool1  16x22x22     7744   100.00   100.00    10.42    10.42          
+ 5           5          5          5
+conv2d2   32x20x20    12800    66.67    66.67    18.75    18.75          
+ 6           6          9          9
+maxpool2  32x10x10     3200    66.67    66.67    18.75    18.75          
+ 6           6          9          9
+conv2d3   64x9x9       5184    61.54    61.54    27.08    27.08          
+ 8           8         13         13
+maxpool3  64x4x4       1024    61.54    61.54    27.08    27.08          
+ 8           8         13         13
+dense1    64             64   100.00   100.00   100.00   100.00          
+48          48         48         48
+dropout2  64             64   100.00   100.00   100.00   100.00          
+48          48         48         48
+output    10             10   100.00   100.00   100.00   100.00          
+48          48         48         48
+
+Explanation
+    X, Y:    image dimensions
+    cap.:    learning capacity
+    cov.:    coverage of image
+    magenta: capacity too low (<1/6)
+    cyan:    image coverage too high (>100%)
+    red:     capacity too low and coverage too high
+
+
+  epoch    train loss    valid loss    train/val    valid acc  dur
+-------  ------------  ------------  -----------  -----------  -------
+      1       2.26126       2.01646      1.12140      0.30395  733.51s
+      2       1.75518       1.34100      1.30886      0.53558  808.90s
+      3       1.38903       1.10484      1.25722      0.64101  778.68s
+      4       1.21449       0.95046      1.27780      0.69510  728.77s
+      5       1.07597       0.80924      1.32960      0.74529  721.14s
+      6       0.96859       0.75870      1.27665      0.76638  698.46s
+      7       0.88188       0.62811      1.40401      0.80284  699.54s
+      8       0.81176       0.56597      1.43427      0.82407  710.66s
+      9       0.73942       0.51829      1.42666      0.83670  685.43s
+     10       0.69018       0.47793      1.44411      0.85248  687.75s
+     11       0.64960       0.46074      1.40991      0.85383  721.56s
+     12       0.61271       0.44543      1.37553      0.86125  686.10s
+     13       0.58604       0.41707      1.40515      0.86685  697.31s
+     14       0.56005       0.41226      1.35849      0.86751  692.99s
+     15       0.52798       0.39220      1.34620      0.87357  695.79s
+     16       0.52348       0.38810      1.34882      0.87758  684.56s
+     17       0.49923       0.37463      1.33261      0.88077  691.63s
+     18       0.48144       0.38113      1.26318      0.88033  689.96s
+     19       0.46511       0.37004      1.25692      0.88279  678.60s
+     20       0.45097       0.36480      1.23620      0.88514  676.01s
+training complete
+predicting...
+predicting done.
+PARAMS: {'output_nonlinearity': <function softmax at 0x7fac9aa211b8>, 'verbose': 1000000, 'y_tensor_type': TensorType(int32, vector), 'update_learning_rate': 0.01, 'batch_iterator_test': <nolearn.lasagne.base.BatchIterator object at 0x7fac99a636d0>, 'conv2d3_nonlinearity': <function rectify at 0x7fac9aa212a8>, 'max_epochs': 20, 'dropout2_p': 0.5, 'regression': False, 'X_tensor_type': None, 'layers': [('input', <class 'lasagne.layers.input.InputLayer'>), ('conv2d1', <class 'lasagne.layers.conv.Conv2DLayer'>), ('maxpool1', <class 'lasagne.layers.pool.MaxPool2DLayer'>), ('conv2d2', <class 'lasagne.layers.conv.Conv2DLayer'>), ('maxpool2', <class 'lasagne.layers.pool.MaxPool2DLayer'>), ('conv2d3', <class 'lasagne.layers.conv.Conv2DLayer'>), ('maxpool3', <class 'lasagne.layers.pool.MaxPool2DLayer'>), ('dense1', <class 'lasagne.layers.dense.DenseLayer'>), ('dropout2', <class 'lasagne.layers.noise.DropoutLayer'>), ('output', <class 'lasagne.layers.dense.DenseLayer'>)], 'batch_iterator_train': <nolearn.lasagne.base.BatchIterator object at 0x7fac99a63650>, 'conv2d3_filter_size': (2, 2), 'on_epoch_finished': [<nolearn.lasagne.handlers.PrintLog instance at 0x7fac9939f9e0>], 'conv2d2_filter_size': (3, 3), 'conv2d1_nonlinearity': <function rectify at 0x7fac9aa212a8>, 'maxpool1_pool_size': (2, 2), 'objective': <function objective at 0x7fac99a656e0>, 'output_num_units': 10, 'conv2d1_num_filters': 16, 'use_label_encoder': False, 'objective_loss_function': <function categorical_crossentropy at 0x7fac9a8736e0>, 'conv2d1_W': <lasagne.init.GlorotUniform object at 0x7fac99a63b50>, 'update': <function nesterov_momentum at 0x7fac9a873de8>, 'custom_score': None, 'input_shape': (None, 1, 48, 48), 'conv2d1_filter_size': (5, 5), 'on_batch_finished': [], 'loss': None, 'maxpool3_pool_size': (2, 2), 'conv2d2_nonlinearity': <function rectify at 0x7fac9aa212a8>, 'conv2d2_num_filters': 32, 'on_training_started': [<nolearn.lasagne.handlers.PrintLayerInfo instance at 0x7fac9939fa28>], 'conv2d2_W': <lasagne.init.GlorotUniform object at 0x7fac99a63c50>, 'maxpool2_pool_size': (2, 2), 'conv2d3_num_filters': 64, 'more_params': {}, 'conv2d3_W': <lasagne.init.GlorotUniform object at 0x7fac99a63a90>, 'on_training_finished': [], 'dense1_num_units': 64, 'train_split': <nolearn.lasagne.base.TrainSplit object at 0x7fac99a63710>}
+nn.score:
+0.9
+confusion_matrix:
+/usr/local/lib/python2.7/dist-packages/numpy/core/fromnumeric.py:2641: VisibleDeprecationWarning: `rank` is deprecated; use the `ndim` attribute or function instead. To find the rank of a matrix see `numpy.linalg.matrix_rank`.
+  VisibleDeprecationWarning)
+[[44  0  1  0  0  0  0  1  0  0]
+ [ 0 60  0  1  0  0  0  0  0  0]
+ [ 1  0 42  1  0  0  0  1  0  0]
+ [ 0  0  0 50  1  1  0  0  2  0]
+ [ 0  0  1  1 50  2  0  2  0  2]
+ [ 0  0  0  3  1 42  2  0  1  0]
+ [ 0  1  0  0  0  1 44  0  1  4]
+ [ 0  0  1  0  2  1  0 42  1  1]
+ [ 0  0  2  1  3  0  1  0 39  0]
+ [ 1  0  0  0  2  0  2  0  0 37]]
+Pickle saved
+terminate

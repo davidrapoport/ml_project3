@@ -1,0 +1,107 @@
+# Neural Network with 429642 learnable parameters                 [54/59]
+
+## Layer information
+
+name      size        total    cap.Y    cap.X    cov.Y    cov.X    filte$
+ Y    filter X    field Y    field X
+--------  --------  -------  -------  -------  -------  -------  -------$
+--  ----------  ---------  ---------
+input     1x48x48      2304   100.00   100.00   100.00   100.00          
+48          48         48         48
+conv2d1   32x44x44    61952   100.00   100.00    10.42    10.42          
+ 5           5          5          5
+maxpool1  32x22x22    15488   100.00   100.00    10.42    10.42          
+ 5           5          5          5
+conv2d2   64x20x20    25600    66.67    66.67    18.75    18.75          
+ 6           6          9          9
+maxpool2  64x10x10     6400    66.67    66.67    18.75    18.75          
+ 6           6          9          9
+dense1    64             64   100.00   100.00   100.00   100.00          
+48          48         48         48
+dropout2  64             64   100.00   100.00   100.00   100.00          
+48          48         48         48
+output    10             10   100.00   100.00   100.00   100.00          
+48          48         48         48
+
+Explanation
+    X, Y:    image dimensions
+    cap.:    learning capacity
+    cov.:    coverage of image
+    magenta: capacity too low (<1/6)
+    cyan:    image coverage too high (>100%)
+    red:     capacity too low and coverage too high
+
+
+  epoch    train loss    valid loss    train/val    valid acc  dur
+-------  ------------  ------------  -----------  -----------  --------
+      1       2.04450       1.54591      1.32252      0.46852  1918.64s
+      2       1.46715       1.14416      1.28230      0.62093  1834.84s
+      3       1.22523       0.95996      1.27633      0.68877  1773.87s
+      4       1.06876       0.81318      1.31429      0.74319  1758.53s
+      5       0.94751       0.72500      1.30690      0.77849  1752.66s
+      6       0.83714       0.63532      1.31766      0.80730  1745.01s
+      7       0.75406       0.56725      1.32931      0.82242  1738.42s
+      8       0.68648       0.52962      1.29617      0.83210  1734.20s
+      9       0.62662       0.49345      1.26989      0.84536  1726.87s
+     10       0.58342       0.47698      1.22316      0.84786  1729.43s
+     11       0.53600       0.46011      1.16493      0.85288  1748.85s
+     12       0.49985       0.45536      1.09769      0.85609  1750.20s
+     13       0.47358       0.45191      1.04795      0.85883  1779.21s
+     14       0.44227       0.43543      1.01569      0.86470  1747.02s
+     15       0.42365       0.44432      0.95348      0.85995  1768.17s
+     16       0.40018       0.43375      0.92261      0.86442  1781.63s
+     17       0.37158       0.44618      0.83281      0.86426  1733.62s
+     18       0.36138       0.45806      0.78894      0.86101  1737.43s
+     19       0.34081       0.45683      0.74603      0.86190  1764.01s
+     20       0.32039       0.45855      0.69869      0.86180  1790.30s
+training complete
+predicting...
+predicting done.
+PARAMS: {'output_nonlinearity': <function softmax at 0x7fcd4f4ab1b8>, 've
+rbose': 1000000, 'y_tensor_type': TensorType(int32, vector), 'update_lear
+ning_rate': 0.01, 'batch_iterator_test': <nolearn.lasagne.base.BatchItera
+tor object at 0x7fcd4e4ee690>, 'max_epochs': 20, 'dropout2_p': 0.5, 'regr
+ession': False, 'X_tensor_type': None, 'layers': [('input', <class 'lasag
+ne.layers.input.InputLayer'>), ('conv2d1', <class 'lasagne.layers.conv.Co
+nv2DLayer'>), ('maxpool1', <class 'lasagne.layers.pool.MaxPool2DLayer'>),
+ ('conv2d2', <class 'lasagne.layers.conv.Conv2DLayer'>), ('maxpool2', <cl
+ass 'lasagne.layers.pool.MaxPool2DLayer'>), ('dense1', <class 'lasagne.la
+yers.dense.DenseLayer'>), ('dropout2', <class 'lasagne.layers.noise.Dropo
+utLayer'>), ('output', <class 'lasagne.layers.dense.DenseLayer'>)], 'batc
+h_iterator_train': <nolearn.lasagne.base.BatchIterator object at 0x7fcd4e
+4ee610>, 'on_epoch_finished': [<nolearn.lasagne.handlers.PrintLog instanc
+e at 0x7fcd4de2a950>], 'conv2d2_filter_size': (3, 3), 'conv2d1_nonlineari
+ty': <function rectify at 0x7fcd4f4ab2a8>, 'maxpool1_pool_size': (2, 2), 
+'objective': <function objective at 0x7fcd4e4f06e0>, 'output_num_units': 
+10, 'conv2d1_num_filters': 32, 'use_label_encoder': False, 'objective_los
+s_function': <function categorical_crossentropy at 0x7fcd4f2fe6e0>, 'upda
+te': <function nesterov_momentum at 0x7fcd4f2fede8>, 'custom_score': None
+, 'input_shape': (None, 1, 48, 48), 'conv2d1_filter_size': (5, 5), 'on_ba
+tch_finished': [], 'loss': None, 'conv2d1_W': <lasagne.init.GlorotUniform
+ object at 0x7fcd4e4eeb10>, 'conv2d2_nonlinearity': <function rectify at 
+0x7fcd4f4ab2a8>, 'conv2d2_num_filters': 64, 'on_training_started': [<nole
+arn.lasagne.handlers.PrintLayerInfo instance at 0x7fcd4de2a998>], 'conv2d
+2_W': <lasagne.init.GlorotUniform object at 0x7fcd4e4eec10>, 'maxpool2_po
+ol_size': (2, 2), 'more_params': {}, 'on_training_finished': [], 'dense1_
+num_units': 64, 'train_split': <nolearn.lasagne.base.TrainSplit object at
+ 0x7fcd4e4ee6d0>}
+nn.score:
+0.898
+confusion_matrix:
+/usr/local/lib/python2.7/dist-packages/numpy/core/fromnumeric.py:2641: Vi
+sibleDeprecationWarning: `rank` is deprecated; use the `ndim` attribute o
+r function instead. To find the rank of a matrix see `numpy.linalg.matrix
+_rank`.
+  VisibleDeprecationWarning)
+[[44  0  0  1  0  0  1  0  0  0]
+ [ 0 59  0  0  2  0  0  0  0  0]
+ [ 0  0 43  0  0  0  1  0  1  0]
+ [ 0  0  1 52  0  1  0  0  0  0]
+ [ 0  0  2  0 51  2  0  0  0  3]
+ [ 0  0  0  2  1 43  3  0  0  0]
+ [ 1  1  2  1  0  0 40  0  0  6]
+ [ 0  1  1  1  2  0  0 43  0  0]
+ [ 0  1  1  0  4  0  0  0 40  0]
+ [ 1  0  0  0  3  2  0  2  0 34]]
+Pickle saved
+terminate
