@@ -64,6 +64,29 @@ We used the \href{http://www.numpy.org/}{NumPy package} and the \href{http://www
 \subsection{Classification Algorithms}
 
 \subsubsection{Baseline: Logistic Regression}
+In Logistic Regression, we want to estimate the probability that some random vector $X=(x_1, \ldots, x_n)$ has a class $Y=y_k$, $P(Y=y_k | X=(x_1, \ldots, x_n))$. In the binary case we can derive the following using Bayes rule and conditioning:
+\begin{equation*}
+\begin{split}
+&P(Y=1~|~X) = \frac{P(X, Y=1)}{P(X)}\\
+&= \frac{ P(X~|~Y=1)\cdot P(Y=1) }{ P(X~|~Y=1)\cdot P(Y=1) + P(X~|~Y=0)\cdot P(Y=0) }\\
+& = \frac{1}{1 + \exp{(-a)}} = \sigma(a) \text{~(Sigmoid Function)}\\
+\end{split}
+\end{equation*}
+
+where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio. By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
+
+\begin{equation}
+	\label{LL}
+	L(w) = -\sum_{i=1}^n y_i\log\Big(\sigma(w^Tx_i)\Big) + (1-y_i)\log\Big(1-\sigma(w^Tx_i)\Big)
+\end{equation}
+
+and search for the optimal set of weights using the \emph{gradient descent algorithm} with $N$ steps and update rule \ref{LR_update_rule}:
+
+\begin{equation}
+\label{LR_update_rule}
+	w_{k+1} = w_k + \alpha_k \sum_{i=1}^n \Big( x_i\big(y_i - \sigma(w_k^Tx_i\big) \Big)
+\end{equation}
+
 
 \subsubsection{Linear SVM}
 
