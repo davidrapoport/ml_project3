@@ -34,6 +34,8 @@ In this work we explore the performance of three classifiers: (1) Logistic Regre
 
 <Something about results>
 
+We then explore two algorithms, the tried and test Convolution Neural Network \ref{LeCunn98}\ref{CNN_committees} and the brand new Spatial Transformer Network \ref{STN} to find that ......
+
 
 \section{Related Work}
 
@@ -41,11 +43,9 @@ In this work we explore the performance of three classifiers: (1) Logistic Regre
 
 
 \section{Data}
-The dataset was obtained from the Kaggle Competition Website. It is a modification of the MNIST \ref{MnistHome} database. A sampling of some digits can be seen in \fig{MNISTSample} and it is aparent that this proves to be a difficult task for even humans to distinguish. In particular, we expect the digits $6$ and $9$ to be almost indistinguishable.
+The dataset was obtained from the Kaggle Competition Website. It is a modification of the MNIST \ref{MnistHome} database. A sampling of some digits can be seen in Fig \ref{MNISTSample} and it is aparent that this proves to be a difficult task for even humans to distinguish. In particular, we expect the digits $6$ and $9$ to be almost indistinguishable.
 
-
-
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.40]{sample_of_images.png}
 	\caption{A sampling of the modified MNIST database}
@@ -70,6 +70,24 @@ We used the \href{http://www.numpy.org/}{NumPy package} and the \href{http://www
 \subsubsection{Fully Connected Feedforward Neural Network}
 
 \subsubsection{Convolution Neural Network}
+The convolution neural network \ref{LeCunn98} is a neural network with specialized layers in which not all neurons are connected to each other. Infact the main component is the subblayer (Fig \ref{convmaxlayer}) which contains the Convolution2D and MaxPool2d pair of layers. As shown in the (simplified) figure, the convolution conducted on the input is tranfromed into a 3D spatial arrangement of neurons. This is then subsampled (by selecting the MAX element from each subsection of the filter) to produce the set of outputs that can be reused in future layers.
+
+Our experiments tested three variants of this using one, two and three Conv-Max sublayers coupled in the architechture shown in Fig \ref{CNNarch}
+
+\begin{figure}[h]
+	% \centering
+	\includegraphics[scale=0.30]{convnet_example.png}
+	\caption{A simplified example of the sublayer containing Convolution2D layer and a MaxPool2D layer. The variables correspond to the authors implementation of the network. The final network used one,two and three of these sublayers in tandem.}
+	\label{convmaxlayer}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.40]{architecture.png}
+	\caption{The Convolution Neural Architechture included $k$ stacked sublayers shown in Fig \ref{convmaxlayer} connected to a dropout layer and finally fed into a fully connected layer containing $10$ neurons that did the final classification.}
+	\label{CNNarch}
+\end{figure}
 
 \subsubsection{Spatial Transformer Network}
 
@@ -98,6 +116,11 @@ We used the \href{http://www.numpy.org/}{NumPy package} and the \href{http://www
 We hereby state that all the work presented in this report is that of the authors.
 \begin{thebibliography}{9}
 
+\bibitem{LeCunn98}
+Lecun Y., Bengio Y., and Haffner P.
+ \emph{Gradient-Based Learning Applied to Document Recognition}
+ Proceedings of the IEEE,
+ 1998.
 \bibitem{ML_textcat}
  Sebastini, F.
   \emph{Machine Learning in Automated Text Categorization}
@@ -119,9 +142,9 @@ Classification}
 
 \bibitem{MnistHome}
 LeCun Y., Cortes, C. and Burges C.J.C.
-	\elph{The MNIST Database of handwritten digits}
+	\emph{The MNIST Database of handwritten digits}
 	http://yann.lecun.com/exdb/mnist/
-
+% inspiration for graphic http://cs231n.github.io/convolutional-networks/
 \end{thebibliography}
 
 \end{document}
