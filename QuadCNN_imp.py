@@ -42,11 +42,30 @@ X = np.load('./data/train_inputs.npy')
 Y = np.load('./data/train_outputs.npy')
 # Y = Y.reshape( Y.shape[0] , 1 )
 Y = Y.astype(np.int32)
-validation_division = int(len(X)*validate_split)
-top = int(len(X)*max_split)
+
 PIXELS = 48
 
+
+
+print 'Original Dataset size:'
+print X.shape
+
+
+import generate_extra_data as ged
+
+
+x_new, y_new = ged.perturb_modified_digits(X,Y,500000)
+X = np.vstack((X,x_new))
+Y = np.hstack((Y,y_new))
+
+print 'New dataset size:'
+print X.shape, Y.shape
+
 X = X.reshape((-1,1, PIXELS, PIXELS))
+
+
+validation_division = int(len(X)*validate_split)
+top = int(len(X)*max_split)
 
 X_train, X_val = X[:validation_division,:], X[validation_division:top,:]
 Y_train, Y_val = Y[:validation_division], Y[validation_division:top]
@@ -54,8 +73,11 @@ Y_train, Y_val = Y[:validation_division], Y[validation_division:top]
 
 # In[7]:
 
+print 'Training Shape:'
 print X_train.shape, Y_train.shape
+print 'Validation Shape:'
 print X_val.shape, Y_val.shape
+print 'PIXELS:'
 print PIXELS
 
 
