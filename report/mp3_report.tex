@@ -73,18 +73,18 @@ In Logistic Regression, we want to estimate the probability that some random vec
 \end{split}
 \end{equation*}
 
-where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio. By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
+where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio. By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^TX_i$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
 
 \begin{equation}
 	\label{LL}
-	L(w) = -\sum_{i=1}^n y_i\log\Big(\sigma(w^Tx_i)\Big) + (1-y_i)\log\Big(1-\sigma(w^Tx_i)\Big)
+	L(w) = -\sum_{i=1}^n y_i\log\Big(\sigma(w^TX_i)\Big) + (1-y_i)\log\Big(1-\sigma(w^TX_i)\Big)
 \end{equation}
 
 and search for the optimal set of weights using the \emph{gradient descent algorithm} with $N$ steps and update rule \ref{LR_update_rule}:
 
 \begin{equation}
 \label{LR_update_rule}
-	w_{k+1} = w_k + \alpha_k \sum_{i=1}^n \Big( x_i\big(y_i - \sigma(w_k^Tx_i\big) \Big)
+	w_{k+1} = w_k + \alpha_k \sum_{i=1}^n \Big( x_i\big(y_i - \sigma(w_k^TX_i\big) \Big)
 \end{equation}
 
 
@@ -96,6 +96,8 @@ and search for the optimal set of weights using the \emph{gradient descent algor
 The convolution neural network \ref{LeCunn98} is a neural network with specialized layers in which not all neurons are connected to each other. Infact the main component is the subblayer (Fig \ref{convmaxlayer}) which contains the Convolution2D and MaxPool2d pair of layers. A convolution of an image is the result where each pixel is the weighted sum of its neighbouring pixels (moving window weighted sum). This means that our 2D convolution takes a weighted sum of each neighbouring pixel of the handwritten digit. \emph{num\_filters} is the number of moving windows of size \emph{filter\_size} $\times$ \emph{filter\_size} we do convolutions with. In MaxPooling we select the maximum in a region of size \emph{pool\_size} $\times$ \emph{pool\_size} pixels obtained from the 2D convolution.
 
 As shown in the (simplified) figure, the convolution conducted on the input is transformed into the 3D spatial arrangement of the filters. This is then subsampled (by selecting the MAX element from each subsection of the filter) to produce the set of outputs that can be reused in future layers. In our architecture we stacked $K$ of the Convolution2D-Maxpool sublayers ($K=\{1,2,3,4\}$) and finally ran the outputs through a fully connected dense layer which had the same number of units as \emph{num\_filters} in the last Convolution2D-Maxpool subplayer. To obtain the final output, we ran this through a $p=0.5$ dropout and then into a fully connected dense layer of size $10$ to make the predictions. This is summarized in Fig \ref{CNNarch}. 
+
+For convinience, we now refer to the \emph{$k$-CNN} as a Convolution Neural Network containing $k$ Convolution2D-Maxpool sublayers.
 
 \begin{figure}[h]
 	% \centering
@@ -118,13 +120,23 @@ As shown in the (simplified) figure, the convolution conducted on the input is t
 
 \section{Results}
 \subsection{Convolution Neural Network}
-ROC (?) curves are shown in \label{CNN-ROC}
+The Convolution Neural Network has best results when the first few convolution layers extract higher level features (lines, circles etc) \ref{LeCunn98} leaving the deeper layers to resolve finer grain details. In our design of the network, we used cross-validation to determine the best filter size of the $1$-CNN. With the $1$-CNN accurarcy curves (Fig  \ref{CNN-ROC}) for \emph{filter\_size} = $16, 32, 64$, it is obvious that a \emph{filter\_size} of $16$ increases its accuracy the fastest which would mean it is extracting the correct features faster. Using this methodology all $k$-CNNs for $k>1$ have their first Convolution Layer with the \emph{filter\_size}=$16$. After which each Convolution-Maxpool sublayer increases its \emph{filter\_size} by $2$. 
+
+It is indeed found that the $4$-CNN is the best performing $k$-CNN.
 
 \begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.6]{acc.png}
-	\caption{ROC Curves for our CNN architectures}
+	% \centering
+	\includegraphics[scale=0.5]{acc.png}
+	\caption{Classification accuracy curves for the CNNs tested}
 	\label{CNN-ROC}
+\end{figure}
+
+
+\begin{figure}[h]
+	% \centering
+	\includegraphics[scale=0.5]{loss4CNN.png}
+	\caption{Loss calcuated for each iteration on the training set. It is clear we reach convergence after 10-12 iterations of the training set.}
+	\label{4CNN_loss}
 \end{figure}
 
 
@@ -155,12 +167,6 @@ Lecun Y., Bengio Y., and Haffner P.
  \emph{Gradient-Based Learning Applied to Document Recognition}
  Proceedings of the IEEE,
  1998.
-\bibitem{ML_textcat}
- Sebastini, F.
-  \emph{Machine Learning in Automated Text Categorization}
-  ACM Computing Surveys (CSUR) 34
-  2002.
-
 \bibitem{CNN_committees}
  Claudiu D. and Meier U. et al.
   \emph{Convolutional Neural Network Committees For Handwritten Character
