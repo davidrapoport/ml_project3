@@ -83,11 +83,11 @@ def pick_learner():
 
 
 def generate_heat_map():
-	svc = ("svc", SVC(kernel="poly", degree=9))
+	svc = ("svc", SVC(kernel="rbf"))
 	bias = ("bias", AddBiasTerm())
 	scale = ("scale", StandardScaler())
-	svc_params = {"svc__C":np.logspace(-2,10,13), 
-					"svc__gamma":np.logspace(-9,3,13)}
+	svc_params = {"svc__C":np.logspace(-2,3,6), 
+					"svc__gamma":np.logspace(-9,6,6)}
 
 	
 	p = Pipeline([scale, bias, svc])
@@ -102,7 +102,7 @@ def pca_grid_search():
 	pca = ("pca", IncrementalPCA())
 	scale = ("scale", StandardScaler())
 	bias = ("bias", AddBiasTerm())
-	svc = ("svc", SVC(kernel="poly",degree=best_degree, C=best_c, gamma=best_gamma))
+	svc = ("svc", SVC(kernel="rbf",degree=best_degree, C=best_c, gamma=best_gamma))
 
 	with_scale = Pipeline([scale, pca, bias, svc])
 	sans_scale = Pipeline([pca, bias, svc])
@@ -167,4 +167,4 @@ def write_to_csv(predictions):
 
 
 if __name__ == '__main__':
-	pca_grid_search()
+	generate_heat_map()
