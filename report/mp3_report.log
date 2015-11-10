@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.11.9)  9 NOV 2015 19:59
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.11.9)  10 NOV 2015 17:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -352,11 +352,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2013/08/26 1.5b listings language file
 )
-(./mp3_report.aux
-
-LaTeX Warning: Label `CNN-ROC' multiply defined.
-
-)
+(./mp3_report.aux)
 \openout1 = `mp3_report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -373,7 +369,8 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
- (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count122
 \scratchdimen=\dimen137
@@ -447,6 +444,9 @@ LaTeX Warning: Reference `STN' on page 1 undefined on input line 37.
 
 LaTeX Warning: Reference `MnistHome' on page 1 undefined on input line 46.
 
+
+LaTeX Warning: Reference `MNISTSample' on page 1 undefined on input line 46.
+
 LaTeX Font Info:    Try loading font information for U+msa on input line 46.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -456,47 +456,134 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 46.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<sample_of_images.png, id=97, 315.1775pt x 266.9975pt>
+<sample_of_images.png, id=4, 315.1775pt x 266.9975pt>
 File: sample_of_images.png Graphic file (type png)
 
 <use sample_of_images.png>
 Package pdftex.def Info: sample_of_images.png used on input line 50.
 (pdftex.def)             Requested size: 126.06876pt x 106.79709pt.
+ <Extradata1.png, id=9, 578.16pt x 433.62pt>
+File: Extradata1.png Graphic file (type png)
+
+<use Extradata1.png>
+Package pdftex.def Info: Extradata1.png used on input line 70.
+(pdftex.def)             Requested size: 115.62994pt x 86.72246pt.
+ <Extradata2.png, id=10, 578.16pt x 433.62pt>
+File: Extradata2.png Graphic file (type png)
+
+<use Extradata2.png>
+Package pdftex.def Info: Extradata2.png used on input line 71.
+(pdftex.def)             Requested size: 115.62994pt x 86.72246pt.
+ <Extradata3.png, id=11, 578.16pt x 433.62pt>
+File: Extradata3.png Graphic file (type png)
+
+<use Extradata3.png>
+Package pdftex.def Info: Extradata3.png used on input line 72.
+(pdftex.def)             Requested size: 115.62994pt x 86.72246pt.
+ <Extradata4.png, id=12, 578.16pt x 433.62pt>
+File: Extradata4.png Graphic file (type png)
+
+<use Extradata4.png>
+Package pdftex.def Info: Extradata4.png used on input line 73.
+(pdftex.def)             Requested size: 115.62994pt x 86.72246pt.
 
 
-LaTeX Warning: Reference `LeCunn98' on page 1 undefined on input line 96.
+LaTeX Warning: Reference `ExtraData' on page 1 undefined on input line 78.
+
+<OriginalMNIST.png, id=14, 578.16pt x 433.62pt>
+File: OriginalMNIST.png Graphic file (type png)
+ <use OriginalMNIST.png>
+Package pdftex.def Info: OriginalMNIST.png used on input line 82.
+(pdftex.def)             Requested size: 173.44933pt x 130.087pt.
+
+<Sigma=1e-2,Alpha=8.png, id=15, 578.16pt x 433.62pt>
+File: Sigma=1e-2,Alpha=8.png Graphic file (type png)
+
+<use Sigma=1e-2,Alpha=8.png>
+Package pdftex.def Info: Sigma=1e-2,Alpha=8.png used on input line 83.
+(pdftex.def)             Requested size: 173.44933pt x 130.087pt.
+ <Sigma=3,Alpha=8.png, id=16, 578.16pt x 433.62pt>
+File: Sigma=3,Alpha=8.png Graphic file (type png)
+
+<use Sigma=3,Alpha=8.png>
+Package pdftex.def Info: Sigma=3,Alpha=8.png used on input line 84.
+(pdftex.def)             Requested size: 173.44933pt x 130.087pt.
+ <Sigma=3,Alpha=30.png, id=17, 578.16pt x 433.62pt>
+File: Sigma=3,Alpha=30.png Graphic file (type png)
+
+<use Sigma=3,Alpha=30.png>
+Package pdftex.def Info: Sigma=3,Alpha=30.png used on input line 85.
+(pdftex.def)             Requested size: 173.44933pt x 130.087pt.
+
+
+LaTeX Warning: Reference `Perturbed' on page 1 undefined on input line 90.
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./sample_of_images.png>] <convnet_example.png, id=124, 963.6pt x 285.065pt>
+ <./sample_of_images.png> <./Extradata1.png> <./Extradata2.png> <./Extradata3.p
+ng> <./Extradata4.png>]
+File: sample_of_images.png Graphic file (type png)
+
+<use sample_of_images.png>
+Package pdftex.def Info: sample_of_images.png used on input line 94.
+(pdftex.def)             Requested size: 126.06876pt x 106.79709pt.
+
+
+LaTeX Warning: Reference `LR_update_rule' on page 2 undefined on input line 118
+.
+
+
+LaTeX Warning: Reference `LeCunn98' on page 2 undefined on input line 131.
+
+
+LaTeX Warning: Reference `convmaxlayer' on page 2 undefined on input line 131.
+
+[2 <./OriginalMNIST.png> <./Sigma=1e-2,Alpha=8.png> <./Sigma=3,Alpha=8.png> <./
+Sigma=3,Alpha=30.png>]
+
+LaTeX Warning: Reference `CNNarch' on page 3 undefined on input line 133.
+
+<convnet_example.png, id=68, 963.6pt x 285.065pt>
 File: convnet_example.png Graphic file (type png)
  <use convnet_example.png>
-Package pdftex.def Info: convnet_example.png used on input line 102.
+Package pdftex.def Info: convnet_example.png used on input line 137.
 (pdftex.def)             Requested size: 289.08223pt x 85.52016pt.
 
-Overfull \hbox (36.03236pt too wide) in paragraph at lines 102--103
+Overfull \hbox (36.03236pt too wide) in paragraph at lines 137--138
 [][] 
  []
 
-<architecture.png, id=125, 735.74875pt x 690.58pt>
+<architecture.png, id=69, 735.74875pt x 690.58pt>
 File: architecture.png Graphic file (type png)
  <use architecture.png>
-Package pdftex.def Info: architecture.png used on input line 110.
+Package pdftex.def Info: architecture.png used on input line 145.
 (pdftex.def)             Requested size: 220.72632pt x 207.1756pt.
 
-<acc.png, id=128, 501.875pt x 338.26375pt>
+
+LaTeX Warning: Reference `convmaxlayer' on page 3 undefined on input line 146.
+
+
+LaTeX Warning: Reference `convmaxlayer' on page 3 undefined on input line 146.
+
+<acc.png, id=70, 501.875pt x 338.26375pt>
 File: acc.png Graphic file (type png)
  <use acc.png>
-Package pdftex.def Info: acc.png used on input line 125.
+Package pdftex.def Info: acc.png used on input line 160.
 (pdftex.def)             Requested size: 301.12732pt x 202.95981pt.
 
-Overfull \hbox (48.07745pt too wide) in paragraph at lines 125--126
+Overfull \hbox (48.07745pt too wide) in paragraph at lines 160--161
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 1622) in paragraph at lines 218--223
+\OT1/ptm/m/it/8 Neu-ral Net-works Ap-plied to Vi-sual Doc-u-ment Anal-y-sis \OT
+1/ptm/m/n/8 Mi-crosoft
+ []
 
 
 ** Conference Paper **
@@ -509,30 +596,36 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 184.
-[2 <./convnet_example.png> <./architecture.png> <./acc.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 184.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 231.
+[3 <./convnet_example.png> <./architecture.png> <./acc.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 231.
  (./mp3_report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 184.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 184.
-Package rerunfilecheck Info: File `mp3_report.out' has not changed.
-(rerunfilecheck)             Checksum: B755627BBF470FA8B8912A5A2034A512;1551.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 231.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 231.
+
+Package rerunfilecheck Warning: File `mp3_report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `mp3_report.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  19F6D106466FE304C61772F02F37E739;1615.
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 184.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 231.
  ) 
 Here is how much of TeX's memory you used:
- 7984 strings out of 494985
- 119246 string characters out of 6180356
+ 8012 strings out of 494985
+ 119843 string characters out of 6180356
  232464 words of memory out of 5000000
- 11074 multiletter control sequences out of 15000+600000
- 37846 words of font info for 82 fonts, out of 8000000 for 9000
+ 11086 multiletter control sequences out of 15000+600000
+ 38953 words of font info for 83 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 29i,17n,43p,833b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,17n,43p,1505b,321s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
@@ -545,10 +638,10 @@ cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
 /usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/times/utmri8a.pfb>
-Output written on mp3_report.pdf (2 pages, 333230 bytes).
+Output written on mp3_report.pdf (3 pages, 988800 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
- 205 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 151 PDF objects out of 1000 (max. 8388607)
+ 108 compressed objects within 2 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

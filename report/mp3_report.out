@@ -4,20 +4,21 @@
 \BOOKMARK [1][-]{section.4}{Methodology}{}% 4
 \BOOKMARK [2][-]{subsection.4.1}{Feature Extraction and Preprocessing}{section.4}% 5
 \BOOKMARK [2][-]{subsection.4.2}{Feature Selection}{section.4}% 6
-\BOOKMARK [2][-]{subsection.4.3}{Classification Algorithms}{section.4}% 7
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Baseline: Logistic Regression}{subsection.4.3}% 8
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Linear SVM}{subsection.4.3}% 9
-\BOOKMARK [3][-]{subsubsection.4.3.3}{Fully Connected Feedforward Neural Network}{subsection.4.3}% 10
-\BOOKMARK [3][-]{subsubsection.4.3.4}{Convolution Neural Network}{subsection.4.3}% 11
-\BOOKMARK [3][-]{subsubsection.4.3.5}{Spatial Transformer Network}{subsection.4.3}% 12
-\BOOKMARK [2][-]{subsection.4.4}{Cross-Validation and Choice of Hyperparameters}{section.4}% 13
-\BOOKMARK [1][-]{section.5}{Results}{}% 14
-\BOOKMARK [2][-]{subsection.5.1}{Convolution Neural Network}{section.5}% 15
-\BOOKMARK [2][-]{subsection.5.2}{Spatial Transformer Network}{section.5}% 16
-\BOOKMARK [1][-]{section.6}{Discussion}{}% 17
-\BOOKMARK [2][-]{subsection.6.1}{Feature Extraction and Selection}{section.6}% 18
-\BOOKMARK [2][-]{subsection.6.2}{Classifier Performance}{section.6}% 19
-\BOOKMARK [2][-]{subsection.6.3}{Future Work}{section.6}% 20
-\BOOKMARK [1][-]{section.7}{Statement of Contributions}{}% 21
-\BOOKMARK [1][-]{section.8}{Integrity of work}{}% 22
-\BOOKMARK [1][-]{section*.1}{References}{}% 23
+\BOOKMARK [2][-]{subsection.4.3}{Generating Extra Data}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{Classification Algorithms}{section.4}% 8
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Baseline: Logistic Regression}{subsection.4.4}% 9
+\BOOKMARK [3][-]{subsubsection.4.4.2}{SVM}{subsection.4.4}% 10
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Fully Connected Feedforward Neural Network}{subsection.4.4}% 11
+\BOOKMARK [3][-]{subsubsection.4.4.4}{Convolution Neural Network}{subsection.4.4}% 12
+\BOOKMARK [3][-]{subsubsection.4.4.5}{Spatial Transformer Network}{subsection.4.4}% 13
+\BOOKMARK [2][-]{subsection.4.5}{Cross-Validation and Choice of Hyperparameters}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{Results}{}% 15
+\BOOKMARK [2][-]{subsection.5.1}{Convolution Neural Network}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.2}{Spatial Transformer Network}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{Discussion}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Feature Extraction and Selection}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{Classifier Performance}{section.6}% 20
+\BOOKMARK [2][-]{subsection.6.3}{Future Work}{section.6}% 21
+\BOOKMARK [1][-]{section.7}{Statement of Contributions}{}% 22
+\BOOKMARK [1][-]{section.8}{Integrity of work}{}% 23
+\BOOKMARK [1][-]{section*.1}{References}{}% 24
