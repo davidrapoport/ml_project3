@@ -34,8 +34,8 @@ best_degree = 9
 best_c = 10
 best_gamma = 1e-3
 
-X = np.load("data/train_inputs.npy")[:100,:]
-Y = np.load("data/train_outputs.npy")[:100]
+X = np.load("data/train_inputs.npy")[:30000,:]
+Y = np.load("data/train_outputs.npy")[:30000]
 
 Xtrain_full, Xtest, Ytrain_full, Ytest = train_test_split(X,Y, train_size=0.8, random_state=1234)
 Xtrain, Xvalid, Ytrain, Yvalid = train_test_split(Xtrain_full, Ytrain_full, train_size=0.8, random_state=1234)
@@ -102,7 +102,7 @@ def pca_grid_search():
 	pca = ("pca", IncrementalPCA())
 	scale = ("scale", StandardScaler())
 	bias = ("bias", AddBiasTerm())
-	svc = ("svc", SVC(kernel="rbf",degree=best_degree, C=best_c, gamma=best_gamma))
+	svc = ("svc", SVC(kernel="rbf", C=best_c, gamma=best_gamma))
 
 	with_scale = Pipeline([scale, pca, bias, svc])
 	sans_scale = Pipeline([pca, bias, svc])

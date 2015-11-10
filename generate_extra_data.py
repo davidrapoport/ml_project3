@@ -30,14 +30,14 @@ def generate_extra_data(n=3000, file_name=None, load_file=None, seed=None, rotat
 	positions = np.random.random_integers(0, X.shape[0]-1, n)
 	transformed = X[positions,:]
 	targets = Y[positions]
-
+	pdb.set_trace()
 	final = np.zeros((n,48*48))
 	angles = np.random.uniform(0,359, n)
 	for i in range(n):
 		temp = transformed[i,:].reshape((28,28))
 		temp = imresize(temp, (48,48))
 		if rotate:
-			temp = imrotate(temp, angles[i])
+			temp = imrotate(temp, angles[i], reshape=False)
 		if emboss:
 			temp = imfilter(temp,"emboss")
 		if elastic:
@@ -67,7 +67,7 @@ def perturb_modified_digits(X, Y, n=3000, seed=None, alpha=8, sigma=3):
 	angles = np.random.uniform(0,359, n)
 	for i in range(n):
 		temp = transformed[i,:].reshape((48,48))
-		temp = imrotate(temp, angles[i])
+		temp = imrotate(temp, angles[i], reshape=False)
 		temp = elastic_distortion(temp, size=48, alpha=alpha, sigma=sigma)
 		final[i,:] = temp.flatten()
 	return final, targets

@@ -41,7 +41,7 @@ def heatmap(model, xvals, yvals, scores, x_name, y_name, name):
 	fig.savefig(name,format='png', bbox_='')
 heatmap("SVM", cvals, gvals, heatmap_matrix, "C", "Gamma", "SVM_grid_search.png")
 
-svc, linsvc, polysvc = joblib.load("ignore/learners.pkl")
+linsvc, svc, polysvc = joblib.load("ignore/server/ignore/learners.pkl")
 d = {}
 d["linsvc"] = linsvc[1]
 for degree in polysvc[2].param_grid['polysvc__degree']:
