@@ -213,6 +213,20 @@ Adding perturbed data according to procedure IV-C, ensures that we expose our ne
 \subsection{Cross-Validation and Choice of Hyperparameters}
 
 \section{Results}
+
+
+\subsection{Logistic Regression}
+The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_{\text{steps}}$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in Fig \ref{LR_accuracy}. In particular the best combination of parameters are $\alpha=0.01$ and \emph{max\_iterations}=$10000$. Using this we were able to obtain a score of 0.23140 on the Kaggle leaderboard.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.50]{LR_accuracy.pdf}
+	\caption{Logistic regression cross validation results, (Red = better accuracy)}
+		\label{LR_accuracy}
+
+\end{figure}
+
+
 \subsection{SVM}
 Our grid search returned optimal values of C=10 and gamma=1e-4. We also cross validated several different kernels all with C=1 and a default gamma. RBF scored highest with about 32\% accuracy, next was a linear kernel with accuracy of about 29\%. Surprisingly all of the polynomial kernels performed as poorly as a random estimator (~10\% accuracy). This is surprising given the performance of the degree 9 SVM in \cite{LeCunn98}. A possible reason for this poor performance is that in order to speed up learning the number of iterations was set at a limit of 300. However, this same set up was used for the linear and RBF kernels as well and much better results were obtained with those methods. Further tests of an polynomial SVM without limiting the number of iterations also yielded the same poor results. The other explanation could be that in order to reduce train times and memory usage, only the first 30000 examples were used, and then a 64, 16, 20 split occurred for train, validate, test. The lack of training examples mixed with the fixed value of C (we did not perform grid search on C or gamma when picking a kernel) could have caused overfitting which would have caused the model to not generalize well. \ref{SVMGrid} shows a heat map of the search for a proper C and gamma. 
 
@@ -223,15 +237,6 @@ Our grid search returned optimal values of C=10 and gamma=1e-4. We also cross va
 	\label{SVMGrid}
 \end{figure}
 
-\subsection{Logistic Regression}
-The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_{\text{steps}}$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in Fig \ref{LR_accuracy}. In particular the best combination of parameters are $\alpha=0.01$ and \emph{max\_iterations}=$10000$. Using this we were able to obtain a score of 0.23140 on the Kaggle leaderboard.
-
-\begin{figure}[h]
-	\label{LR_accuracy}
-	\centering
-	\includegraphics[scale=0.50]{LR_accuracy.pdf}
-	\caption{Logistic regression cross validation results, (Red = better accuracy)}
-\end{figure}
 
 \subsection{Feed-forward Neural Network}
 
@@ -242,68 +247,78 @@ An epoch is one forward pass and backpropagation event. For a single Convolution
 After this we trained $2$-CNNs, $3$-CNNs and $4$-CNNs where at each additional Convolution-Maxpool layer we increase the number of filters to extract higher level features. Fig \ref{CNNacc} shows that as the depth of the network increases, we converge to higher accuracy rates.
 
 \begin{figure}[h]
-	\label{CNNacc}
 	\centering
 	\includegraphics[scale=0.6]{CNNacc.pdf}
 	\caption{Accuracy vs Epoch plot}
+		\label{CNNacc}
 \end{figure}
 
 Further examination on the $4$-CNN shows that (without perturbed data) we converge to our optimal set of weights after $10-12$ epochs (Fig \ref{C4NNacc}). This prediction scored 0.90940 on the Kaggle leaderboard.
 
 \begin{figure}[h]
-	\label{C4NNacc}
+	
 	\centering
 	\includegraphics[scale=0.6]{4CNNloss.pdf}
 	\caption{Loss in the 4CNN}
+	\label{C4NNacc}
 \end{figure}
 
 As a final attempt to make our classifier more robust to unseen handwritten digits, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}. Confusion matrices for each are found in Fig \ref{4CNN_confusion} (a) and (b).
 
 \begin{figure}[h]
-	\label{both_C4NNacc}
+	
 	\centering
 	\includegraphics[scale=0.6]{4CNN_and_extraloss.pdf}
 	\caption{Loss in the 4CNN both with and without extra data}
+	\label{both_C4NNacc}
 \end{figure}
 
 \begin{figure}[h]
-	\label{4CNN_confusion}
+	
 	\centering
 	\includegraphics[scale=0.5]{4CNN_confusion.pdf}
 	\includegraphics[scale=0.5]{4CNN_perturbed_confusion.pdf}
 	\caption{Confusion Matrix for 4CNN}
+	\label{4CNN_confusion}
 \end{figure}
 \section{Discussion}
 
-Since the data for handwritten digits is very non-linear, we did not expect linear classifiers to do well on such a dataset.
+Since the data for handwritten digits is very non-linear, we did not expect linear classifiers to do well on such a dataset. The comparison of the four best classifiers is shown in Fig \ref{crossacc}.
 
-A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to (1) our induced perturbations not being representative of the test set or (2) limitations in our network architecture which disallowed it from learning the features more robustly. It could be that since $50\%$ of the data was perturbed and the other $50\%$ unperturbed, the classifier was unable to learn the features for each. We investigate this by observing which parts of a digit were most critical to classifying a digit in both classifiers.
+A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to (1) our induced perturbations not being representative of the test set or (2) limitations in our network architecture which disallowed it from learning the features more robustly. It could be that since $50\%$ of the data was perturbed and the other $50\%$ unperturbed, the classifier was unable to learn the features for each. We investigate this by observing which parts of a digit were most critical to classifying a digit in both classifiers. <include words here>
+
+
 
 \begin{figure}[h]
-	\label{crossacc}
+	
 	\centering
 	\includegraphics[scale=0.6]{cross-classifier-acc.pdf}
 	\caption{Cross-classifier accuracy showing the accuracy of each classifier on a validation set}
+	\label{crossacc}
 \end{figure}
 
 
 
 \subsection{Feature Extraction and Selection}
-
+< something here? >
 
 
 \subsection{Classifier Performance}
 
 \begin{figure}[h]
-	\label{crossacc}
+	
 	\centering
 	\includegraphics[scale=0.6]{cross-classifier-acc.pdf}
 	\caption{Cross-classifier accuracy showing the accuracy of each classifier on a validation set}
+	\label{crossacc}
 \end{figure}
 
 
 \subsection{Future Work}
-Next steps involve investigation into a Spatial Transformer Network \cite{STN} and see how it compares to the industry standard Convolution Neural Network used in this paper.
+
+For the convolution neural network, we would like to further investigate the effect of adding perturbed data on our architecture. An investigation in how the proportion of perturbed data vs. unperturbed data might shine some insight into the effects of augmenting non-standard data into a dataset for prediction tasks. This will be a useful experiment as it will try to understand how a dataset composed from different data sources affects a classifiers performance versus a classifier trained on data from only one source.
+
+Next steps involve investigation into a "Spatial Transformer Network" \cite{STN} and see how it compares to the industry standard Convolution Neural Network used in this paper. In this novel network, rotations and resizing are explicitly taken care of by a special "Transformer" layer that will \emph{undo} modifications on a digit. 
 
 
 \section{Statement of Contributions}
