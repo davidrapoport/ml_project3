@@ -39,7 +39,7 @@ def heatmap(model, xvals, yvals, scores, x_name, y_name, name):
     #        os.makedirs(plot_dir)
 
 	fig.savefig(name,format='pdf', bbox_='')
-heatmap("SVM", cvals, ["%.3e"%x for x in gvals], heatmap_matrix, "C", "Gamma", "SVM_grid_search")
+heatmap("SVM", cvals, ["%.1e"%x for x in gvals], heatmap_matrix, "C", "Gamma", "SVM_grid_search")
 
 # linsvc, svc, polysvc = joblib.load("ignore/server/ignore/learners.pkl")
 # d = {}
