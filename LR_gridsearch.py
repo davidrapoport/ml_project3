@@ -21,7 +21,7 @@ lr = LogisticRegression(learning_rate=0.0005,max_iterations=100000)
 
 #gs = grid_search.GridSearchCV(lr, {'learning_rate':[0.01, 0.001, 0.05, 0.005 ], 'max_iterations':[10, 100, 1000, 10000, 5000, 100000]}, verbose=10000)
 
-gs = grid_search.GridSearchCV(lr, {'learning_rate':[0.01, 0.001, 0.1], 'max_iterations':[10, 100, 1000, 10000, 100000]}, verbose=10000, cv=3, n_jobs=7)
+gs = grid_search.GridSearchCV(lr, {'learning_rate':[ 0.1], 'max_iterations':[10, 100]}, verbose=10000, cv=3)
 
 # gs = grid_search.GridSearchCV(lr, {'learning_rate':[0.01], 'max_iterations':[10, 100]}, verbose=10000)
 

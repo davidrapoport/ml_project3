@@ -38,34 +38,34 @@ def heatmap(model, xvals, yvals, scores, x_name, y_name, name):
 	#if not os.path.exists(plot_dir):
     #        os.makedirs(plot_dir)
 
-	fig.savefig(name,format='png', bbox_='')
-heatmap("SVM", cvals, gvals, heatmap_matrix, "C", "Gamma", "SVM_grid_search.png")
+	fig.savefig(name,format='pdf', bbox_='')
+heatmap("SVM", cvals, ["%.3e"%x for x in gvals], heatmap_matrix, "C", "Gamma", "SVM_grid_search")
 
-linsvc, svc, polysvc = joblib.load("ignore/server/ignore/learners.pkl")
-d = {}
-d["linsvc"] = linsvc[1]
-for degree in polysvc[2].param_grid['polysvc__degree']:
-	m = max([g.mean_validation_score for g in polysvc[2].grid_scores_ if g.parameters['polysvc__degree']== degree])
-	d["polysvc_"+str(degree)] = m
+# linsvc, svc, polysvc = joblib.load("ignore/server/ignore/learners.pkl")
+# d = {}
+# d["linsvc"] = linsvc[1]
+# for degree in polysvc[2].param_grid['polysvc__degree']:
+# 	m = max([g.mean_validation_score for g in polysvc[2].grid_scores_ if g.parameters['polysvc__degree']== degree])
+# 	d["polysvc_"+str(degree)] = m
 
-for kernel in svc[2].param_grid['svc__kernel']:
-	m = max([g.mean_validation_score for g in svc[2].grid_scores_ if g.parameters['svc__kernel']== kernel])
-	d["svc_"+str(kernel)] = m
+# for kernel in svc[2].param_grid['svc__kernel']:
+# 	m = max([g.mean_validation_score for g in svc[2].grid_scores_ if g.parameters['svc__kernel']== kernel])
+# 	d["svc_"+str(kernel)] = m
 
-with open("learner_results.json", "w") as f:
-	json.dump(d,f)
+# with open("learner_results.json", "w") as f:
+# 	json.dump(d,f)
 
-pca_search = joblib.load("ignore/pca_grid_search.pkl")
-xvals = ["Centered", "Not Centered"]
-scale, _ = pca_search['with_scale']
-sans, _ = pca_search['sans_scale']
-heatmap_matrix = np.zeros((len(sans.param_grid['pca__n_components']),2))
-grid = dict([(val, i) for i, val in enumerate(sans.param_grid['pca__n_components'])])
-for score in scale.grid_scores_:
-	heatmap_matrix[grid[score.parameters['pca__n_components']], 0] = score.mean_validation_score
+# pca_search = joblib.load("ignore/pca_grid_search.pkl")
+# xvals = ["Centered", "Not Centered"]
+# scale, _ = pca_search['with_scale']
+# sans, _ = pca_search['sans_scale']
+# heatmap_matrix = np.zeros((len(sans.param_grid['pca__n_components']),2))
+# grid = dict([(val, i) for i, val in enumerate(sans.param_grid['pca__n_components'])])
+# for score in scale.grid_scores_:
+# 	heatmap_matrix[grid[score.parameters['pca__n_components']], 0] = score.mean_validation_score
 
-for score in sans.grid_scores_:
-	heatmap_matrix[grid[score.parameters['pca__n_components']], 1] = score.mean_validation_score
+# for score in sans.grid_scores_:
+# 	heatmap_matrix[grid[score.parameters['pca__n_components']], 1] = score.mean_validation_score
 
-heatmap("PCA selection", xvals, sans.param_grid['pca__n_components'], heatmap_matrix, 
-		"Scaled", "Number Components", "PCA_gridsearch.png")
+# heatmap("PCA selection", xvals, sans.param_grid['pca__n_components'], heatmap_matrix, 
+# 		"Scaled", "Number Components", "PCA_gridsearch")

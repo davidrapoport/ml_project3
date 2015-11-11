@@ -56,10 +56,10 @@ def show_image(ex, size=(48,48), name=None, norm=0.0):
 	plt.imshow(im, cmap="Greys_r")
 	# plt.show()
 	if name:
-		plt.title(name)
+		plt.title(name+".pdf")
 		if norm:
 			plt.suptitle("Norm of difference="+str(norm))
-		fig.savefig("".join(name.split(" ")))
+		fig.savefig("".join(name.split(" ")), format="pdf")
 	return plt
 
 def perturb_modified_digits(X, Y, n=3000, seed=None, alpha=8, sigma=3):
@@ -129,27 +129,27 @@ def elastic_distortion(ex, size=28, alpha=8, sigma=3):
 	return ex_new
 
 if __name__ == '__main__':
-	X = np.load("data/mnist_train_extra_inputs.npy")
-	original = show_image(X[4,:], (28,28), name="Original MNIST")
-	e,_ = generate_extra_data(n=4)
-	for cnt in range(4):
-		show_image(e[cnt,:], name="Extra data "+str(cnt+1))
-	ex = X[4,:].reshape((28,28))
+	X = np.load("data/train_inputs.npy")
+	# pdb.set_trace()
+	original = show_image(X[4,:], name="Original MNIST")
+	# e,_ = generate_extra_data(n=4)
+	# for cnt in range(4):
+	# 	show_image(e[cnt,:], name="Extra data "+str(cnt+1))
+	ex = X[4,:].reshape((48,48))
+	sig3alph8 = elastic_distortion(ex, size=48, sigma=3, alpha=8)
+	show_image(sig3alph8.flatten(), name="Sigma=3, Alpha=8", norm=np.linalg.norm(sig3alph8 - ex))
+	show_image((sig3alph8 - ex).flatten() )
+	print np.linalg.norm(sig3alph8 - ex)
 
-	# sig3alph8 = elastic_distortion(ex, sigma=3, alpha=8)
-	# show_image(sig3alph8.flatten(), (28,28), name="Sigma=3, Alpha=8", norm=np.linalg.norm(sig3alph8 - ex))
-	# show_image((sig3alph8 - ex).flatten(), (28,28))
-	# print np.linalg.norm(sig3alph8 - ex)
+	sig001 = elastic_distortion(ex, size=48, sigma=0.01)
+	show_image(sig001.flatten(),  name="Sigma=1e-2, Alpha=8", norm=np.linalg.norm(sig001 - ex))
+	show_image((sig001 - ex).flatten() )
+	print np.linalg.norm(sig001 - ex)
 
-	# sig001 = elastic_distortion(ex, sigma=0.01)
-	# show_image(sig001.flatten(), (28,28), name="Sigma=1e-2, Alpha=8", norm=np.linalg.norm(sig001 - ex))
-	# show_image((sig001 - ex).flatten(), (28,28))
-	# print np.linalg.norm(sig001 - ex)
-
-	# alph30 = elastic_distortion(ex, alpha=30)
-	# show_image(alph30.flatten(), (28,28), name="Sigma=3, Alpha=30", norm=np.linalg.norm(alph30 - ex))
-	# show_image((alph30 - ex).flatten(), (28,28))
-	# print np.linalg.norm(alph30 - ex)
+	alph30 = elastic_distortion(ex, size=48, alpha=30)
+	show_image(alph30.flatten(),  name="Sigma=3, Alpha=30", norm=np.linalg.norm(alph30 - ex))
+	show_image((alph30 - ex).flatten() )
+	print np.linalg.norm(alph30 - ex)
 
 	# ex_new = elastic_distortion(ex, alpha = 0.01)
 	# show_image(ex_new.flatten(), (28,28))
