@@ -65,7 +65,7 @@ To implement the advanced Convolution Neural Networks we used the \href{http://p
 
 We explored both Principal Component Analysis (PCA) and scaling the data as methods of dimensionality reduction and feature preprocessing. Principal Component analysis is a dimensionality reduction technique which tries to find a pair of linear transformations $f:\mathbb{R}^m\rightarrow\mathbb{R}^p$ and $g:\mathbb{R}^p\rightarrow\mathbb{R}^m$ where $p\leq m$ and for the corresponding matrices $F=G^T$. To find these matrices we are going to solve the equation $argmin_{F,G}\Sigma_{i=0}^N\|x_i-G\times F\times x_i\|^2$. Practically, we used scikit-learn's Incremental PCA which performs PCA in steps to avoid a memory blow up. 
 
-\begin{figure}[Feature preprocessing grid search]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.40]{PCA_gridsearch.pdf}
 	\caption{The effect of varying the number of components and scaling the data}
@@ -187,8 +187,6 @@ Our grid search returned optimal values of C=10 and gamma=1e-4. We also cross va
 	\caption{Heat map of SVM grid search}
 	\label{SVMGrid}
 \end{figure}
-\subsection{Convolution Neural Network}
-ROC (?) curves are shown in \label{CNN-ROC}
 
 \subsection{Logistic Regression}
 The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_{\text{steps}}$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in Fig \ref{LR_accuracy}. In particular the best combination of parameters are $\alpha=0.01$ and \emph{max\_iterations}=$10000$. Using this we were able to obtain a score of 0.23140 on the Kaggle leaderboard.
@@ -220,14 +218,24 @@ Further examination on the $4$-CNN shows that (without extra data) we converge t
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{4CNNloss.pdf}
-	\caption{Loss in the 4CNN (without extra data)}
+	\includegraphics[scale=0.6]{4CNN-extra-dataloss.pdf}
+	\caption{Loss in the 4CNN both with and without extra data}
 	\label{C4NNacc}
 \end{figure}
 
-As a final attempt to boost our accuracy rates, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored 0.XXX on the Kaggle leaderboard effectively putting the classifier in the top $25\%$ of classifiers for this project.
+As a final attempt to boost our accuracy rates, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}.
 
 
 \section{Discussion}
+
+
+A suprising result was the fact that a $4$-CNN trained with extra data did not outperform the $4$-CNN with less data. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{4CNN_and_extraloss.pdf}
+	\caption{Loss in the 4CNN both with and without extra data}
+	\label{both_C4NNacc}
+\end{figure}
 
 
 \subsection{Feature Extraction and Selection}

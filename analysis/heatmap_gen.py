@@ -40,11 +40,11 @@ def heatmap(scores,p1,p2,pvals,model,score_fn):
 	plt.colorbar()
 
 	#if not os.path.exists(plot_dir):
-    #        os.makedirs(plot_dir)
-
-	plot_path = directory + '/' + title + '.pdf'
+	#        os.makedirs(plot_dir)
+	plt.show()
+	# plot_path = directory + '/' + title + '.pdf'
 	print plot_path
-	fig.savefig(plot_path,format='png', bbox_='')
+	# fig.savefig(plot_path,format='png', bbox_='')
 
 if __name__ == '__main__':
 	for model,scores in all_scores.iteritems():
