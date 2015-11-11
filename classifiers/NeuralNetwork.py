@@ -27,20 +27,21 @@ class NeuralNetwork(BaseEstimator):
 			self.n_nodes = n_nodes
 			self.layer_type = layer_type
 			self.ith_layer = ith_layer
-			#print layer_type
+			print layer_type, ith_layer
 			if layer_type != "output":
 				self.xs = np.zeros((n_nodes+1)) #need a bias node
 			else:
 				self.xs = np.zeros((n_nodes))
-			if layer_type != "input":
+				self.deltas = np.zeros((n_nodes))
+			if layer_type != "output":
 				# Randomize weights
 				rand_sigma = 1 / np.sqrt(n_in_nodes) # standard deviation  
 				rand_mu = 0 # mean
-				self.weights = rand_sigma * np.random.randn(n_nodes,n_in_nodes+1)
-				self.deltas = np.zeros((n_nodes)) # errors
-			#	print "  weights", self.weights.shape
-			#	print "  deltas",self.deltas.shape
-			#print "  xs", self.xs.shape
+				self.weights = rand_sigma * np.random.randn(n_nodes+1,n_in_nodes)
+				self.deltas = np.zeros((n_nodes+1)) # errors
+				print "  weights", self.weights.shape
+				print "  deltas",self.deltas.shape
+			print "  xs", self.xs.shape
 				
 	
 	def __init__(self, n_inputs, n_outputs, n_nodes_hidden, alpha, cross_val=False, verbose=False, tol=0.001):
@@ -67,17 +68,17 @@ class NeuralNetwork(BaseEstimator):
 
 		if self.verbose:
 			print "Initializing input and output layers ..."
-		self.input_layer = NeuralNetwork.NNLayer("input", n_inputs, 0,0) 
-		self.output_layer = NeuralNetwork.NNLayer("output", n_outputs, n_nodes_hidden[-1],self.n_hidden_layers+1)
+		self.input_layer = NeuralNetwork.NNLayer("input", n_inputs, n_nodes_hidden[0],0) 
+		self.output_layer = NeuralNetwork.NNLayer("output", n_outputs,0,self.n_hidden_layers+1)
 		self.hidden_layers = []
 		
 		if self.verbose:
 			print "Initializing hidden layers ..."
 		for i in range(self.n_hidden_layers):
-			if i == 0: n_in_nodes = n_inputs
-			else: n_in_nodes = n_nodes_hidden[i-1]
+			if i == self.n_hidden_layers-1: n_in_nodes = n_outputs
+			else: n_in_nodes = n_nodes_hidden[i+1]
 			self.hidden_layers.append(NeuralNetwork.NNLayer("hidden",n_nodes_hidden[i],n_in_nodes,i+1))
-
+			
 
 	def forwardPass(self, x):
 		"""
@@ -96,11 +97,13 @@ class NeuralNetwork(BaseEstimator):
 		for i in range(self.n_hidden_layers):
 			next_layer = self.hidden_layers[i]
 			next_layer.xs[0] = 1 # bias term
-			next_layer.xs[1:] = sigmoid( np.dot(next_layer.weights,layer.xs) ) 
+			next_layer.xs[1:] = sigmoid( np.dot(layer.weights.transpose(),layer.xs) ) 
 			layer = next_layer
 
-		self.output_layer.xs = sigmoid( np.dot(self.output_layer.weights,layer.xs) )
+		self.output_layer.xs = sigmoid( np.dot(layer.weights.transpose(),layer.xs) )
 
+	def sig_prime(self,xs):
+		return np.multiply(xs,np.subtract(np.ones(len(xs)),xs))
 
 	def backPropagation(self, y_class):
 		"""
@@ -117,42 +120,48 @@ class NeuralNetwork(BaseEstimator):
 		#print "type", ol.layer_type, ", layer #", ol.ith_layer
 		y = np.zeros(len(ol.xs))
 		y[y_class] = 1
-		# Compute correction for output units
-		temp_xs = ol.xs
-		temp_deltas = np.multiply(temp_xs,np.subtract(np.ones(len(temp_xs)),temp_xs))
-		#print "  deltas", temp_deltas.shape
-		deltas = np.multiply(temp_deltas, np.subtract(y,temp_xs))
+
+		print ol.deltas
+		
+		# Compute corrections for output units
+		sig_der = self.sig_prime(ol.xs)
+		err = np.subtract(y,ol.xs)
+		deltas = np.multiply(err,sig_der)
 		ol.deltas = deltas
-		top_layer = ol
+		above_layer = ol
+		print deltas
 
 		# Compute correction for hidden units
-		for hl in reversed(self.hidden_layers):
-			#print "type", hl.layer_type, ", layer #", hl.ith_layer
-			temp_deltas = np.multiply( hl.xs[1:], np.subtract(np.ones(len(hl.xs[1:])),hl.xs[1:]) ) # bias unit
-			#print "  deltas", temp_deltas.shape
-			#print "  weights.T, deltas",top_layer.weights.transpose().shape , top_layer.deltas.shape
-			w_d = np.dot(top_layer.weights.transpose(),top_layer.deltas)[1:]
-			deltas = np.multiply( temp_deltas, w_d )
+		output_next = True
+		for hl in reversed([self.input_layer]+self.hidden_layers):
+			sig_der = self.sig_prime(hl.xs)
+			print "layer", hl.layer_type, "#", hl.ith_layer
+			print "  weights", hl.weights.shape
+			print "  deltas", above_layer.deltas.shape
+			if output_next:
+				dot_prod = np.dot(hl.weights,above_layer.deltas)
+			else:
+				dot_prod = np.dot(hl.weights,above_layer.deltas[1:])
+			deltas = np.multiply(sig_der,dot_prod)
 			hl.deltas = deltas
-			top_layer = hl
+			print deltas
+			above_layer = hl
+			output_next = False
 
 	def update_weights(self):
 		"""
 		Update neuron's weights according to previously computed error 
 		"""
-		layers = [self.output_layer] + self.hidden_layers
+		layers = [self.input_layer] + self.hidden_layers
 
 		for layer in layers:
 			#print "type", layer.layer_type, ", layer #", layer.ith_layer
 			#print "  weights", layer.weights.shape
 			#print "  deltas", layer.deltas.shape
 			#print "  xs", layer.xs.shape
-			if layer.layer_type != "output":
-				xs = layer.xs[1:]
-			else: #no bias node
-				xs = layer.xs
-			temp = self.alpha*np.dot(layer.deltas, xs.transpose())
-			layer.weights = np.add(layer.weights, temp)
+			xs = layer.xs
+			correction = self.alpha*np.dot(layer.deltas, xs.transpose())
+			layer.weights = np.add(layer.weights, correction)
 
 	def fit(self, X, Y, X_test=None,y_test=None):
 		"""Fits NeuralNetwork according to the given training data.
@@ -167,7 +176,7 @@ class NeuralNetwork(BaseEstimator):
 		-------
 		self : this NeuralNetwork object
 		"""
-		for i in range(50): #temporary way of checking everything works before including convergence
+		for i in range(5): #temporary way of checking everything works before including convergence
 			for x,y in zip(X,Y): # pick a training example
 				self.forwardPass(x)
 				self.backPropagation(y)
