@@ -119,11 +119,18 @@ In Logistic Regression, we want to estimate the probability that some random vec
 \begin{split}
 &P(Y=1~|~X) = \frac{P(X, Y=1)}{P(X)}\\
 &= \frac{ P(X~|~Y=1)\cdot P(Y=1) }{ P(X~|~Y=1)\cdot P(Y=1) + P(X~|~Y=0)\cdot P(Y=0) }\\
-& = \frac{1}{1 + \exp{(-a)}} = \sigma(a) \text{~(Sigmoid Function)}\\
+& = \sigma(a)\\
 \end{split}
 \end{equation*}
 
-where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio. By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
+where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio and $\sigma (a)$ is the Sigmoid function:
+
+\begin{equation}
+	\label{sig}
+	\sigma (x)= \frac{1}{1 + \exp{(-x)}} 
+\end{equation}
+
+By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
 
 \begin{equation}
 	\label{LL}
@@ -161,7 +168,7 @@ The NN structure is divided into three main components:
 \item an output layer, which in the case of multi-label classification, includes $m$ output nodes $o_1,o_2,\dots,o_m$, each representing the probability that an example belongs to class $o_j$.
 \end{itemize}
 
-The outputs of hidden and output layer nodes are calculated with an activation function. There exists many choices, one of the most common being the sigmoid function:
+The outputs of hidden and output layer nodes are calculated with an activation function. There exists many choices, one of the most common being the previously defined sigmoid function (\ref{sig}).
 
 
 
