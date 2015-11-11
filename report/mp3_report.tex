@@ -146,8 +146,6 @@ The convolution neural network \cite{LeCunn98} is a neural network with speciali
 
 As shown in the (simplified) figure \ref{convmaxlayer}, the convolution conducted on the input is transformed into the 3D spatial arrangement of the filters. This is then subsampled (by selecting the MAX element from each subsection of the filter) to produce the set of outputs that can be reused in future layers. In our architecture we stacked $K$ of the Convolution2D-Maxpool sublayers ($K=\{1,2,3,4\}$) and finally ran the outputs through a fully connected dense layer which had the same number of units as \emph{num\_filters} in the last Convolution2D-Maxpool subplayer. To obtain the final output, we ran this through a $p=0.5$ dropout and then into a fully connected dense layer of size $10$ to make the predictions. This is summarized in Fig \ref{CNNarch}. 
 
-
-
 \begin{figure}[h]
 	% \centering
 	\includegraphics[scale=0.5]{architecture.pdf}
@@ -159,7 +157,7 @@ Two methods were used to account for overfitting: (1) dropout\cite{dropout} neur
 
 In dropout, we randomly delete $50\%$ of the neurons during each forward pass and backpropagation event, this forces neurons to learn a more robust set of features. It is akin to training multiple different networks and this sampling of different neurons during the task reduces the co-dependence of neurons to make predictions. 
 
-Adding perturbed data according to procedure IV-C, ensures that we expose our network to a wider range of possible digits. This ensures that the network is robust to perturbations in the data and can make better predictions in the event that there are imperfections like distortion, deletions and deformations.
+Adding perturbed data according to procedure IV-C, ensures that we expose our network to a wider range of possible digits. This means that the network is robust to perturbations in the data and can make better predictions in the event that there are imperfections like distortion, deletions and deformations.
 
 \subsection{Cross-Validation and Choice of Hyperparameters}
 
@@ -179,7 +177,9 @@ The parameters for logistic regression used were the \emph{learning\_rate} ($\al
 
 
 \subsection{Convolution Neural Networks}
-An epoch is one forward pass and backpropagation event. For a single Convolution-Maxpool layer, we picked the initial number of filters using two-fold cross validation to be $16$ (Fig \ref{CNNacc}). After this we trained $2$-CNNs, $3$-CNNs and $4$-CNNs where at each additional Convolution-Maxpool layer we increase the number of filters to extract higher level features. Fig \ref{CNNacc} shows that as the depth of the network increases, we converge to higher accuracy rates.
+An epoch is one forward pass and backpropagation event. For a single Convolution-Maxpool layer, we picked the initial number of filters using two-fold cross validation to be $16$ (Fig \ref{CNNacc}). This is because using $16$ filters showed a faster increase in accuracy and selecting a smaller first filter means that there will be fewer parameters to train overall.
+
+After this we trained $2$-CNNs, $3$-CNNs and $4$-CNNs where at each additional Convolution-Maxpool layer we increase the number of filters to extract higher level features. Fig \ref{CNNacc} shows that as the depth of the network increases, we converge to higher accuracy rates.
 
 \begin{figure}[h]
 	\centering
