@@ -21,24 +21,23 @@
 \fancyfoot{}
 
 
-\author{David Rapoport, Zafarali Ahmed, Pascale Gourdeau\\Team Name: TBD}
+\author{David Rapoport, Zafarali Ahmed, Pascale Gourdeau\\Team Name: KernelTrix}
 \title{COMP-598 Mini-Project \#3\\Handwritten Digits Classification}
 \date{\today}
 \begin{document}
 \maketitle
 
 \section{Introduction}
-The MNIST database\cite{MNIST_Original} of handwritten digits is often used as a baseline to compare performance of different classifiers. In this paper, we use a modified version of the MNIST database where the digits have been modified by (1) embossing, (2) rotation, (3) rescaling, and (4) random texturing. This makes the problem much more difficult and we demonstrate poor performance with linear classifiers.
+The MNIST database\cite{MNIST_Original} of handwritten digits is often used as a baseline to compare performance of different classifiers. In this work we explore the performance of three classifiers: (1) logistic regression, (2) the support vector machine, (3) feed-forward neural network and (4) convolution neural network. 
 
-In this work we explore the performance of three classifiers: (1) Logistic Regression, (2) Support Vector Machine and (3) The Feed-forward Neural Network. 
+Past work \cite{MNIST_Original} demonstrates high classification accuracy using some of the above classifiers. To make the problem more challenging, we use a modified version of the MNIST database where the digits have been modified by (1) embossing, (2) rotation, (3) rescaling, and (4) random texturing.
 
-<Something about results>
+Under these conditions, we demonstrate poor performance with linear classifiers and strong performance with a layered convolution network.
 
-We then explore two algorithms, the tried and tested Convolution Neural Network \cite{LeCunn98}\cite{CNN_committees} and the brand new Spatial Transformer Network \cite{STN} to find that ......
 
 
 \section{Related Work}
-
+< PUT SOMETHING HERE >
 
 
 
@@ -67,7 +66,7 @@ To implement the advanced Convolution Neural Networks we used the \href{http://p
 
 As per the suggestions of Patrice Simard et al. \cite{Simard} we decided to augment our learners with extra data. The data generated came from two different sources and the effect of the addition of either supplementary dataset is explored later in this paper.
 
-\begin{figure}[Extra Data]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.20]{Extradata1.png}
 	\includegraphics[scale=0.20]{Extradata2.png}
@@ -79,7 +78,7 @@ As per the suggestions of Patrice Simard et al. \cite{Simard} we decided to augm
 
 The first additional datasource involved transformations of the original MNIST dataset \cite{MNIST_Original}. We will refer to this dataset as "Extra Digits" throughout the rest of the paper. First we enlarged the images from $28\times 28$ to $48\times 48$. Then we rotated by a random angle $\theta \in  [0,359]$. Finally we applied an emboss to the image. We attempted to add a pattern to the new image as in the modified MNIST dataset, but were unable to find a pattern which we felt maintained the integrity of the image in a way which the patterns used in the modified MNIST dataset did. An example of images from the dataset is shown in \ref{ExtraData}
 
-\begin{figure}[Extra Data]
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.30]{OriginalMNIST.png}
 	\includegraphics[scale=0.30]{Sigma=1e-2,Alpha=8.png}
@@ -127,6 +126,8 @@ and search for the optimal set of weights using the \emph{gradient descent algor
 %  @PASCALE PLEASE CHECK THIS?
 We did not do any kernel transformations on the data due as this was left to a large margin classifier, the Support Vector Machine found in the next part.
 
+Multi-class classification was implemented using a one-vs-all approach.
+
 
 \subsubsection{Support Vector Machine}
 
@@ -138,7 +139,7 @@ The convolution neural network \cite{LeCunn98} is a neural network with speciali
 
 \begin{figure}[h]
 	% \centering
-	\includegraphics[scale=0.30]{convnet_example.png}
+	\includegraphics[scale=0.40]{convnet_example.pdf}
 	\caption{A simplified example of the sublayer containing Convolution2D layer and a MaxPool2D layer. The variables correspond to the authors implementation of the network. The final network used one,two and three of these sublayers in tandem.}
 	\label{convmaxlayer}
 \end{figure}
@@ -149,12 +150,16 @@ As shown in the (simplified) figure \ref{convmaxlayer}, the convolution conducte
 
 \begin{figure}[h]
 	% \centering
-	\includegraphics[scale=0.30]{architecture.png}
+	\includegraphics[scale=0.5]{architecture.pdf}
 	\caption{The Convolution Neural Architechture included $k$ stacked sublayers shown in Fig \ref{convmaxlayer} connected to a dropout layer and finally fed into a fully connected layer containing $10$ neurons that did the final classification.}
 	\label{CNNarch}
 \end{figure}
 
-\subsubsection{Spatial Transformer Network}
+Two methods were used to account for overfitting: (1) dropout\cite{dropout} neurons and (2) addition of extra (perturbed) data. 
+
+In dropout, we randomly delete $50\%$ of the neurons during each forward pass and backpropagation event, this forces neurons to learn a more robust set of features. It is akin to training multiple different networks and this sampling of different neurons during the task reduces the co-dependence of neurons to make predictions. 
+
+Adding perturbed data according to procedure IV-C, ensures that we expose our network to a wider range of possible digits. This ensures that the network is robust to perturbations in the data and can make better predictions in the event that there are imperfections like distortion, deletions and deformations.
 
 \subsection{Cross-Validation and Choice of Hyperparameters}
 
@@ -165,25 +170,31 @@ The parameters for logistic regression used were the \emph{learning\_rate} ($\al
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.50]{LR_accuracy.png}
+	\includegraphics[scale=0.50]{LR_accuracy.pdf}
 	\caption{Logistic regression cross validation results, (Red = better accuracy)}
 	\label{LR_accuracy}
 \end{figure}
 
+\subsection{Feed-forward Neural Network}
 
-\subsection{Convolution Neural Network}
-ROC (?) curves are shown in \label{CNN-ROC}
+
+\subsection{Convolution Neural Networks}
+An epoch is one forward pass and backpropagation event.
+ROC (?) curves are shown in \ref{CNNacc}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.6]{acc.png}
-	\caption{ROC Curves for our CNN architectures}
-	\label{CNN-ROC}
+	\includegraphics[scale=0.6]{CNNacc.pdf}
+	\caption{Accuracy vs Epoch plot}
+	\label{CNNacc}
 \end{figure}
 
-
-\subsection{Spatial Transformer Network}
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{4CNNloss.pdf}
+	\caption{Loss in the 4CNN (without extra data)}
+	\label{CNNacc}
+\end{figure}
 
 
 \section{Discussion}
@@ -195,7 +206,7 @@ ROC (?) curves are shown in \label{CNN-ROC}
 \subsection{Classifier Performance}
 
 \subsection{Future Work}
-
+Next steps involve investigation into a Spatial Transformer Network \cite{STN}
 
 
 \section{Statement of Contributions}
@@ -211,6 +222,13 @@ ROC (?) curves are shown in \label{CNN-ROC}
 \section{Integrity of work}
 We hereby state that all the work presented in this report is that of the authors.
 \begin{thebibliography}{9}
+
+\bibitem{MNIST_Original}
+LeCun Y., Cortes, C. and Burges C.J.C.
+	\emph{The MNIST Database of handwritten digits}
+	http://yann.lecun.com/exdb/mnist/
+% inspiration for graphic http://cs231n.github.io/convolutional-networks/
+
 
 \bibitem{LeCunn98}
 Lecun Y., Bengio Y., and Haffner P.
@@ -248,11 +266,12 @@ Applied to Visual Document Analysis}
 	Microsoft
     http://research.microsoft.com/pubs/68920/icdar03.pdf.
 
-\bibitem{MNIST_Original}
-LeCun Y., Cortes, C. and Burges C.J.C.
-	\emph{The MNIST Database of handwritten digits}
-	http://yann.lecun.com/exdb/mnist/
-% inspiration for graphic http://cs231n.github.io/convolutional-networks/
+
+\bibitem{dropout}
+Krizhevsky A., Sutskever I., and Hinton G.E.
+\emph{ImageNet Classification with Deep Convolution Neural Networks}
+	NIPS 2012
+
 \end{thebibliography}
 
 \end{document}
