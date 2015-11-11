@@ -32,7 +32,7 @@ class AddBiasTerm(BaseEstimator, TransformerMixin):
 
 best_degree = 9
 best_c = 10
-best_gamma = 1e-3
+best_gamma = 0.0001
 
 X = np.load("data/train_inputs.npy")[:30000,:]
 Y = np.load("data/train_outputs.npy")[:30000]
@@ -139,6 +139,7 @@ def extra_data():
 
 
 	for i in range(-1,num_slices):
+		print "Iteration "+ str(i+2)
 		Xp = np.vstack((Xtrain_full, extra_data[0:(i+1)*n/num_slices]))
 		Yp = np.vstack((Ytrain_full, extra_targets[0:(i+1)*n/num_slices]))
 		p.fit(Xp, Yp)
@@ -167,4 +168,10 @@ def write_to_csv(predictions):
 
 
 if __name__ == '__main__':
-	generate_heat_map()
+	a = ("a", AddBiasTerm())
+	s = ("s", StandardScaler())
+	p = ("p", IncrementalPCA(n_components=500, batch_size=1000))
+	svc = ("svc", SVC(kernel="poly", degree=5))
+	pip = Pipeline([s,p,a, svc])
+	pip.fit(Xtrain, Ytrain)
+	print pip.score(Xtest, Ytest)
