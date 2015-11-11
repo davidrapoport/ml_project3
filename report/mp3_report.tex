@@ -93,7 +93,7 @@ The second datasource we attempted to generate was motivated by Patrice Simard e
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.40]{sample_of_images.png}
-	\caption{A sampling of the modified MNIST database}
+	\caption{A sampling of the modified MNIST database. It is interesting to notice that the last digit is a 6, even though to the human eye it appears to be a 9.}
 	\label{MNISTSample}
 \end{figure}
 
@@ -166,7 +166,7 @@ Adding perturbed data according to procedure IV-C, ensures that we expose our ne
 \section{Results}
 
 \subsection{Logistic Regression}
-The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_steps$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in \ref{LR_accuracy}
+The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_{\text{steps}}$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in Fig \ref{LR_accuracy}. In particular the best combination of parameters are $\alpha=0.01$ and \emph{max\_iterations}=$10000$. Using this we were able to obtain a score of 0.23140 on the Kaggle leaderboard.
 
 \begin{figure}[h]
 	\centering
@@ -179,8 +179,7 @@ The parameters for logistic regression used were the \emph{learning\_rate} ($\al
 
 
 \subsection{Convolution Neural Networks}
-An epoch is one forward pass and backpropagation event.
-ROC (?) curves are shown in \ref{CNNacc}
+An epoch is one forward pass and backpropagation event. For a single Convolution-Maxpool layer, we picked the initial number of filters using two-fold cross validation to be $16$ (Fig \ref{CNNacc}). After this we trained $2$-CNNs, $3$-CNNs and $4$-CNNs where at each additional Convolution-Maxpool layer we increase the number of filters to extract higher level features. Fig \ref{CNNacc} shows that as the depth of the network increases, we converge to higher accuracy rates.
 
 \begin{figure}[h]
 	\centering
@@ -189,15 +188,20 @@ ROC (?) curves are shown in \ref{CNNacc}
 	\label{CNNacc}
 \end{figure}
 
+Further examination on the $4$-CNN shows that (without extra data) we converge to our optimal set of weights after $10-12$ epochs (Fig \ref{C4NNacc}. This prediction scored 0.90940 on the Kaggle leaderboard.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{4CNNloss.pdf}
 	\caption{Loss in the 4CNN (without extra data)}
-	\label{CNNacc}
+	\label{C4NNacc}
 \end{figure}
+
+As a final attempt to boost our accuracy rates, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored 0.XXX on the Kaggle leaderboard effectively putting the classifier in the top $25\%$ of classifiers for this project.
 
 
 \section{Discussion}
+
 
 \subsection{Feature Extraction and Selection}
 
@@ -205,8 +209,16 @@ ROC (?) curves are shown in \ref{CNNacc}
 
 \subsection{Classifier Performance}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6]{cross-classifier-acc.pdf}
+	\caption{Cross-classifier accuracy showing the accuracy of each classifier on a validation set}
+	\label{crossacc}
+\end{figure}
+
+
 \subsection{Future Work}
-Next steps involve investigation into a Spatial Transformer Network \cite{STN}
+Next steps involve investigation into a Spatial Transformer Network \cite{STN} and see how it compares to the industry standard Convolution Neural Network used in this paper.
 
 
 \section{Statement of Contributions}
