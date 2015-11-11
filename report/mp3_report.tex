@@ -46,10 +46,10 @@ Under these conditions, we demonstrate poor performance with linear classifiers 
 The dataset was obtained from the Kaggle Competition Website. It is a modification of the MNIST \cite{MNIST_Original} database. A sampling of some digits can be seen in Fig \ref{MNISTSample} and it is apparent that this proves to be a difficult task for even humans to distinguish. In particular, we expect the digits $6$ and $9$ to be almost indistinguishable.
 
 \begin{figure}[h]
+		\label{MNISTSample}
 	\centering
-	\includegraphics[scale=0.40]{sample_of_images.png}
-	\caption{A sampling of the modified MNIST database}
-	\label{MNISTSample}
+	\includegraphics[scale=0.50]{sample_of_images.png}
+	\caption{A sampling of the modified MNIST database. It is interesting to notice that the last digit is a 6, even though to the human eye it appears to be a 9.}
 \end{figure}
 
 \section{Methodology}
@@ -104,12 +104,6 @@ The first additional datasource involved transformations of the original MNIST d
 
 The second datasource we attempted to generate was motivated by Patrice Simard et al. \cite{Simard}. This involved performing an affine deformation of the modified MNIST image. We refer to this additional dataset as "Perturbed Modified Digits" throughout the rest of the paper. The methodology for generating these perturbed digits is as follows. Given a $n\times n$ image, we first generate two random $n\times n$ displacement fields $?x(x',y')\rightarrow uniform(-1,1)$ and $?y(x',y')\rightarrow uniform(-1,1)$. We the convolve these displacement fields by a gaussian filter with $\mu = 0$ and $\sigma$ being a variable to the function which defaults to 3. After this we normalize the displacement fields by dividing each element in the field by the norm of the matrix. All the elements in both displacement fields are then multiplied by $\alpha$ which is a variable to the function. We then generate a new $n\times n$ image as such: for each pixel $(i,j)$ in the original, the new value at that pixel is the value at $?x(i,j),?y(i,j)$ in the original picture. Bilinear interpolation is used to determine the value of $new(i,j)=original(?x(i,j),?y(i,j))$ when $?x(i,j),?y(i,j)$ are not integers. For indices which appear out of bounds of the picture we simply used a default value of 0. Fig \ref{Perturbed} shows the effect of varying $\alpha$ and $\sigma$ on the original MNIST dataset (similar results occur with the modified dataset, but are harder to distinguish). The norm of the difference between the original MNIST image and the modified image are included in the pictures. We found that increasing $\alpha$ causes larger smooth, deformations while decreasing $\sigma$ causes the deformation to be more random and noisy. This is consistent with the findings in the literature.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.40]{sample_of_images.png}
-	\caption{A sampling of the modified MNIST database. It is interesting to notice that the last digit is a 6, even though to the human eye it appears to be a 9.}
-	\label{MNISTSample}
-\end{figure}
 
 \subsection{Classification Algorithms}
 
@@ -216,10 +210,10 @@ Our grid search returned optimal values of C=10 and gamma=1e-4. We also cross va
 The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_{\text{steps}}$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in Fig \ref{LR_accuracy}. In particular the best combination of parameters are $\alpha=0.01$ and \emph{max\_iterations}=$10000$. Using this we were able to obtain a score of 0.23140 on the Kaggle leaderboard.
 
 \begin{figure}[h]
+	\label{LR_accuracy}
 	\centering
 	\includegraphics[scale=0.50]{LR_accuracy.pdf}
 	\caption{Logistic regression cross validation results, (Red = better accuracy)}
-	\label{LR_accuracy}
 \end{figure}
 
 \subsection{Feed-forward Neural Network}
@@ -231,43 +225,45 @@ An epoch is one forward pass and backpropagation event. For a single Convolution
 After this we trained $2$-CNNs, $3$-CNNs and $4$-CNNs where at each additional Convolution-Maxpool layer we increase the number of filters to extract higher level features. Fig \ref{CNNacc} shows that as the depth of the network increases, we converge to higher accuracy rates.
 
 \begin{figure}[h]
+	\label{CNNacc}
 	\centering
 	\includegraphics[scale=0.6]{CNNacc.pdf}
 	\caption{Accuracy vs Epoch plot}
-	\label{CNNacc}
 \end{figure}
 
-Further examination on the $4$-CNN shows that (without extra data) we converge to our optimal set of weights after $10-12$ epochs (Fig \ref{C4NNacc}. This prediction scored 0.90940 on the Kaggle leaderboard.
+Further examination on the $4$-CNN shows that (without perturbed data) we converge to our optimal set of weights after $10-12$ epochs (Fig \ref{C4NNacc}). This prediction scored 0.90940 on the Kaggle leaderboard.
 
 \begin{figure}[h]
+	\label{C4NNacc}
 	\centering
 	\includegraphics[scale=0.6]{4CNNloss.pdf}
-	\includegraphics[scale=0.6]{4CNN-extra-dataloss.pdf}
-	\caption{Loss in the 4CNN both with and without extra data}
-	\label{C4NNacc}
+	\caption{Loss in the 4CNN}
 \end{figure}
 
-As a final attempt to boost our accuracy rates, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}.
+As a final attempt to make our classifier more robust to unseen handwritten digits, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}.
 
 
 \section{Discussion}
 
 Since the data for handwritten digits is very non-linear, we did not expect linear classifiers to do well on such a dataset.
 
-A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to the 
+A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to (1) our induced perturbations not being representative of the test set or (2) limitations in our network architecture which disallowed it from learning the features more robustly. It could be that since $50\%$ of the data was perturbed and the other not perturbed, that the classifier was unable to learn the features for each. 
+
+We investigate this by observing which classifiers consider which areas of the digits most important for classification in .
+
 \begin{figure}[h]
+	\label{both_C4NNacc}
 	\centering
 	\includegraphics[scale=0.6]{4CNN_and_extraloss.pdf}
 	\caption{Loss in the 4CNN both with and without extra data}
-	\label{both_C4NNacc}
 \end{figure}
 
 \begin{figure}[h]
+	\label{4CNN_confusion}
 	\centering
 	\includegraphics[scale=0.5]{4CNN_confusion.pdf}
 	\includegraphics[scale=0.5]{4CNN_perturbed_confusion.pdf}
 	\caption{Confusion Matrix for 4CNN}
-	\label{4CNN_confusion}
 \end{figure}
 
 
@@ -278,10 +274,10 @@ A suprising result was the fact that a $4$-CNN trained with perturbed data did n
 \subsection{Classifier Performance}
 
 \begin{figure}[h]
+	\label{crossacc}
 	\centering
 	\includegraphics[scale=0.6]{cross-classifier-acc.pdf}
 	\caption{Cross-classifier accuracy showing the accuracy of each classifier on a validation set}
-	\label{crossacc}
 \end{figure}
 
 
@@ -292,9 +288,9 @@ Next steps involve investigation into a Spatial Transformer Network \cite{STN} a
 \section{Statement of Contributions}
 
 \begin{enumerate}
-\item D.R.
+\item D.R. wrote preprocessing and perturbation algorithms to create more sample points. D.R. also wrote and conducted grid search experiments using the Support Vector Machine.
 \item Z.A. wrote the Logistic Regression classifier from scratch. Z.A. also developed the Convolution Neural Network Architecture and ran experiments to cross validate different layering approaches.
-\item P.G.
+\item P.G. wrote the Feed-Forward Neural Network from scratch. P.G. also wrote data analysis scripts and conducted experiments using the Feed-Forward Neural Network.
 \item All authors contributed equally to the generation of this report, including graphics.
 \end{enumerate}
 
