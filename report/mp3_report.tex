@@ -46,10 +46,10 @@ Under these conditions, we demonstrate poor performance with linear classifiers 
 The dataset was obtained from the Kaggle Competition Website. It is a modification of the MNIST \cite{MNIST_Original} database. A sampling of some digits can be seen in Fig \ref{MNISTSample} and it is apparent that this proves to be a difficult task for even humans to distinguish. In particular, we expect the digits $6$ and $9$ to be almost indistinguishable.
 
 \begin{figure}[h]
+		\label{MNISTSample}
 	\centering
-	\includegraphics[scale=0.40]{sample_of_images.png}
-	\caption{A sampling of the modified MNIST database}
-	\label{MNISTSample}
+	\includegraphics[scale=0.50]{sample_of_images.png}
+	\caption{A sampling of the modified MNIST database. It is interesting to notice that the last digit is a 6, even though to the human eye it appears to be a 9.}
 \end{figure}
 
 \section{Methodology}
@@ -74,7 +74,7 @@ We explored both Principal Component Analysis (PCA) and scaling the data as meth
 
 We also scaled our data prior to use so that all features would have approximately zero mean and a standard deviation of roughly one. This was also done to more easily merge the modified digits dataset with the original MNIST dataset. Upon inspection we noticed that the original MNIST dataset took values of 0-255 while the modified MNIST dataset took values between 0-1, normalizing both datasets put them both on about the same scale. 
 
-We performed a GridSearch on different values of p to use as the projected dimensionality of the data after applying PCA, and with and without scaling. \ref{gridsearchpca} shows the heatmap of our GridSearch using an SVM with an RBF kernel and C=10, gamma=1e-4, we get optimal results for p=500 and normalizing the data. 
+We performed a GridSearch on different values of p to use as the projected dimensionality of the data after applying PCA, and with and without scaling. Fig \ref{gridsearchpca} shows the heatmap of our GridSearch using an SVM with an RBF kernel and C=10, gamma=1e-4, we get optimal results for p=500 and normalizing the data. 
 
 \subsection{Generating Extra Data}
 
@@ -90,19 +90,19 @@ As per the suggestions of Patrice Simard et al. \cite{Simard} we decided to augm
 	\label{ExtraData}
 \end{figure}
 
-The first additional datasource involved transformations of the original MNIST dataset \cite{MNIST_Original}. We will refer to this dataset as "Extra Digits" throughout the rest of the paper. First we enlarged the images from $28\times 28$ to $48\times 48$. Then we rotated by a random angle $\theta \in  [0,359]$. Finally we applied an emboss to the image. We attempted to add a pattern to the new image as in the modified MNIST dataset, but were unable to find a pattern which we felt maintained the integrity of the image in a way which the patterns used in the modified MNIST dataset did. An example of images from the dataset is shown in \ref{ExtraData}
+The first additional datasource involved transformations of the original MNIST dataset \cite{MNIST_Original}. We will refer to this dataset as "Extra Digits" throughout the rest of the paper. First we enlarged the images from $28\times 28$ to $48\times 48$. Then we rotated by a random angle $\theta \in  [0,359]$. Finally we applied an emboss to the image. We attempted to add a pattern to the new image as in the modified MNIST dataset, but were unable to find a pattern which we felt maintained the integrity of the image in a way which the patterns used in the modified MNIST dataset did. An example of images from the dataset is shown in Fig \ref{ExtraData}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.30]{OriginalMNIST.pdf}
-	\includegraphics[scale=0.30]{Sigma=1e-2,Alpha=8.pdf}
-	\includegraphics[scale=0.30]{Sigma=3,Alpha=8.pdf}
-	\includegraphics[scale=0.30]{Sigma=3,Alpha=30.pdf}
+	\includegraphics[scale=0.20]{OriginalMNIST.pdf}
+	\includegraphics[scale=0.20]{Sigma=1e-2,Alpha=8.pdf}
+	\includegraphics[scale=0.20]{Sigma=3,Alpha=8.pdf}
+	\includegraphics[scale=0.20]{Sigma=3,Alpha=30.pdf}
 	\caption{The effect of varying $\sigma$ and $\alpha$}
 	\label{Perturbed}
 \end{figure}
 
-The second datasource we attempted to generate was motivated by Patrice Simard et al. \cite{Simard}. This involved performing an affine deformation of the modified MNIST image. We refer to this additional dataset as "Perturbed Modified Digits" throughout the rest of the paper. The methodology for generating these perturbed digits is as follows. Given a $n\times n$ image, we first generate two random $n\times n$ displacement fields $?x(x',y')\rightarrow uniform(-1,1)$ and $?y(x',y')\rightarrow uniform(-1,1)$. We the convolve these displacement fields by a gaussian filter with $\mu = 0$ and $\sigma$ being a variable to the function which defaults to 3. After this we normalize the displacement fields by dividing each element in the field by the norm of the matrix. All the elements in both displacement fields are then multiplied by $\alpha$ which is a variable to the function. We then generate a new $n\times n$ image as such: for each pixel $(i,j)$ in the original, the new value at that pixel is the value at $?x(i,j),?y(i,j)$ in the original picture. Bilinear interpolation is used to determine the value of $new(i,j)=original(?x(i,j),?y(i,j))$ when $?x(i,j),?y(i,j)$ are not integers. For indices which appear out of bounds of the picture we simply used a default value of 0. \ref{Perturbed} shows the effect of varying $\alpha$ and $\sigma$ on the original MNIST dataset (similar results occur with the modified dataset, but are harder to distinguish). The norm of the difference between the original MNIST image and the modified image are included in the pictures. We found that increasing $\alpha$ causes larger smooth, deformations while decreasing $\sigma$ causes the deformation to be more random and noisy. This is consistent with the findings in the literature.
+The second datasource we attempted to generate was motivated by Patrice Simard et al. \cite{Simard}. This involved performing an affine deformation of the modified MNIST image. We refer to this additional dataset as "Perturbed Modified Digits" throughout the rest of the paper. The methodology for generating these perturbed digits is as follows. Given a $n\times n$ image, we first generate two random $n\times n$ displacement fields $?x(x',y')\rightarrow uniform(-1,1)$ and $?y(x',y')\rightarrow uniform(-1,1)$. We the convolve these displacement fields by a gaussian filter with $\mu = 0$ and $\sigma$ being a variable to the function which defaults to 3. After this we normalize the displacement fields by dividing each element in the field by the norm of the matrix. All the elements in both displacement fields are then multiplied by $\alpha$ which is a variable to the function. We then generate a new $n\times n$ image as such: for each pixel $(i,j)$ in the original, the new value at that pixel is the value at $?x(i,j),?y(i,j)$ in the original picture. Bilinear interpolation is used to determine the value of $new(i,j)=original(?x(i,j),?y(i,j))$ when $?x(i,j),?y(i,j)$ are not integers. For indices which appear out of bounds of the picture we simply used a default value of 0. Fig \ref{Perturbed} shows the effect of varying $\alpha$ and $\sigma$ on the original MNIST dataset (similar results occur with the modified dataset, but are harder to distinguish). The norm of the difference between the original MNIST image and the modified image are included in the pictures. We found that increasing $\alpha$ causes larger smooth, deformations while decreasing $\sigma$ causes the deformation to be more random and noisy. This is consistent with the findings in the literature.
 
 In the future we would like to explore different ways of transforming the data to generate more examples. Proposed methods include adding Gaussian noise to the image, randomly setting some pixels to 0, shifting the image in some direction (the images are currently mostly centered), or overlaying some patterns similar to those used to generate the modified MNIST digits dataset. Furthermore, it would be interesting to do a comparison of how adding more data from each of these new datasets affects the train and test error of a fixed classifier. 
 
@@ -115,17 +115,24 @@ In the future we would like to explore different ways of transforming the data t
 
 \subsection{Classification Algorithms}
 
-\subsubsection{Baseline: Logistic Regression}
+\subsubsection{Baseline - Logistic Regression}
 In Logistic Regression, we want to estimate the probability that some random vector $X=(x_1, \ldots, x_n)$ has a class $Y=y_k$, $P(Y=y_k | X=(x_1, \ldots, x_n))$. In the binary case we can derive the following using Bayes rule and conditioning:
 \begin{equation*}
 \begin{split}
 &P(Y=1~|~X) = \frac{P(X, Y=1)}{P(X)}\\
 &= \frac{ P(X~|~Y=1)\cdot P(Y=1) }{ P(X~|~Y=1)\cdot P(Y=1) + P(X~|~Y=0)\cdot P(Y=0) }\\
-& = \frac{1}{1 + \exp{(-a)}} = \sigma(a) \text{~(Sigmoid Function)}\\
+& = \sigma(a)\\
 \end{split}
 \end{equation*}
 
-where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio. By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
+where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio and $\sigma (a)$ is the Sigmoid function:
+
+\begin{equation}
+	\label{sig}
+	\sigma (x)= \frac{1}{1 + \exp{(-x)}} 
+\end{equation}
+
+By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
 
 \begin{equation}
 	\label{LL}
@@ -140,7 +147,7 @@ and search for the optimal set of weights using the \emph{gradient descent algor
 \end{equation}
 
 %  @PASCALE PLEASE CHECK THIS?
-We did not do any kernel transformations on the data due as this was left to a large margin classifier, the Support Vector Machine found in the next part.
+We did not do any kernel transformations on the data as this was left to a large margin classifier, the Support Vector Machine,  found in the next part.
 
 Multi-class classification was implemented using a one-vs-all approach.
 
@@ -151,6 +158,30 @@ To select our features we broke the dataset into train, validate, and test sets 
 
 
 \subsubsection{Fully Connected Feedforward Neural Network}
+
+Neural Networks (NN) have been shown to perform very well on image classification without requiring extensive feature extraction and processing \cite{LeCun90}, as the images are fed directly into the NN. This model is advantageous for many reasons, notably as it works with low level information and it allows us to work with high dimensional data.
+
+The NN structure is divided into three main components: 
+\begin{itemize}
+\item an input layer, consisting of nodes representing an input's features, in addition to a bias node.
+\item a set of hidden layers, which all include a bias node. To each node $i$ in a hidden layer is associated:
+\begin{itemize}
+\item $\delta_i$: the correction for node $i$
+\item $w_i$: a vector representing the weight of the connection from each node in the previous layer to node $i$
+\end{itemize}
+\item an output layer, which in the case of multi-label classification, includes $m$ output nodes $o_1,o_2,\dots,o_m$, each representing the probability that an example belongs to class $o_j$.
+\end{itemize}
+
+The outputs of hidden and output layer nodes are calculated with an activation function. There exists many choices, one of the most common being the previously defined sigmoid function (\ref{sig}).
+
+
+
+Learning a NN happens in 3 steps, which are repeated until convergence:
+\begin{itemize}
+\item \emph{Forward pass}:
+\item \emph{Back Propagation}:
+\item \emph{Gradient Descent}
+\end{itemize}
 
 \subsubsection{Convolution Neural Network}
 The convolution neural network \cite{LeCunn98} is a neural network with specialized layers in which not all neurons are connected to each other. Infact the main component is the subblayer (Fig \ref{convmaxlayer}) which contains the Convolution2D and MaxPool2d pair of layers. A convolution of an image is the result where each pixel is the weighted sum of its neighbouring pixels (moving window weighted sum). This means that our 2D convolution takes a weighted sum of each neighbouring pixel of the handwritten digit. \emph{num\_filters} is the number of moving windows of size \emph{filter\_size} $\times$ \emph{filter\_size} we do convolutions with. In MaxPooling we select the maximum in a region of size \emph{pool\_size} $\times$ \emph{pool\_size} pixels obtained from the 2D convolution.
@@ -196,10 +227,10 @@ Our grid search returned optimal values of C=10 and gamma=1e-4. We also cross va
 The parameters for logistic regression used were the \emph{learning\_rate} ($\alpha$) and \emph{max\_iterations} $K_{\text{steps}}$ that will control how fast we converge to the optimal set of weights for the decision boundary. We used a three-fold cross validation to discover the best parameters, and the results are summarized in Fig \ref{LR_accuracy}. In particular the best combination of parameters are $\alpha=0.01$ and \emph{max\_iterations}=$10000$. Using this we were able to obtain a score of 0.23140 on the Kaggle leaderboard.
 
 \begin{figure}[h]
+	\label{LR_accuracy}
 	\centering
 	\includegraphics[scale=0.50]{LR_accuracy.pdf}
 	\caption{Logistic regression cross validation results, (Red = better accuracy)}
-	\label{LR_accuracy}
 \end{figure}
 
 \subsection{Feed-forward Neural Network}
@@ -211,34 +242,45 @@ An epoch is one forward pass and backpropagation event. For a single Convolution
 After this we trained $2$-CNNs, $3$-CNNs and $4$-CNNs where at each additional Convolution-Maxpool layer we increase the number of filters to extract higher level features. Fig \ref{CNNacc} shows that as the depth of the network increases, we converge to higher accuracy rates.
 
 \begin{figure}[h]
+	\label{CNNacc}
 	\centering
 	\includegraphics[scale=0.6]{CNNacc.pdf}
 	\caption{Accuracy vs Epoch plot}
-	\label{CNNacc}
 \end{figure}
 
-Further examination on the $4$-CNN shows that (without extra data) we converge to our optimal set of weights after $10-12$ epochs (Fig \ref{C4NNacc}. This prediction scored 0.90940 on the Kaggle leaderboard.
+Further examination on the $4$-CNN shows that (without perturbed data) we converge to our optimal set of weights after $10-12$ epochs (Fig \ref{C4NNacc}). This prediction scored 0.90940 on the Kaggle leaderboard.
 
 \begin{figure}[h]
+	\label{C4NNacc}
 	\centering
 	\includegraphics[scale=0.6]{4CNNloss.pdf}
-	\includegraphics[scale=0.6]{4CNN-extra-dataloss.pdf}
-	\caption{Loss in the 4CNN both with and without extra data}
-	\label{C4NNacc}
+	\caption{Loss in the 4CNN}
 \end{figure}
 
-As a final attempt to boost our accuracy rates, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}.
+As a final attempt to make our classifier more robust to unseen handwritten digits, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}.
 
 
 \section{Discussion}
 
+Since the data for handwritten digits is very non-linear, we did not expect linear classifiers to do well on such a dataset.
 
-A suprising result was the fact that a $4$-CNN trained with extra data did not outperform the $4$-CNN with less data. 
+A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to (1) our induced perturbations not being representative of the test set or (2) limitations in our network architecture which disallowed it from learning the features more robustly. It could be that since $50\%$ of the data was perturbed and the other not perturbed, that the classifier was unable to learn the features for each. 
+
+We investigate this by observing which classifiers consider which areas of the digits most important for classification in .
+
 \begin{figure}[h]
+	\label{both_C4NNacc}
 	\centering
 	\includegraphics[scale=0.6]{4CNN_and_extraloss.pdf}
 	\caption{Loss in the 4CNN both with and without extra data}
-	\label{both_C4NNacc}
+\end{figure}
+
+\begin{figure}[h]
+	\label{4CNN_confusion}
+	\centering
+	\includegraphics[scale=0.5]{4CNN_confusion.pdf}
+	\includegraphics[scale=0.5]{4CNN_perturbed_confusion.pdf}
+	\caption{Confusion Matrix for 4CNN}
 \end{figure}
 
 
@@ -249,10 +291,10 @@ A suprising result was the fact that a $4$-CNN trained with extra data did not o
 \subsection{Classifier Performance}
 
 \begin{figure}[h]
+	\label{crossacc}
 	\centering
 	\includegraphics[scale=0.6]{cross-classifier-acc.pdf}
 	\caption{Cross-classifier accuracy showing the accuracy of each classifier on a validation set}
-	\label{crossacc}
 \end{figure}
 
 
@@ -263,9 +305,9 @@ Next steps involve investigation into a Spatial Transformer Network \cite{STN} a
 \section{Statement of Contributions}
 
 \begin{enumerate}
-\item D.R.
+\item D.R. wrote preprocessing and perturbation algorithms to create more sample points. D.R. also wrote and conducted grid search experiments using the Support Vector Machine.
 \item Z.A. wrote the Logistic Regression classifier from scratch. Z.A. also developed the Convolution Neural Network Architecture and ran experiments to cross validate different layering approaches.
-\item P.G.
+\item P.G. wrote the Feed-Forward Neural Network from scratch. P.G. also wrote data analysis scripts and conducted experiments using the Feed-Forward Neural Network.
 \item All authors contributed equally to the generation of this report, including graphics.
 \end{enumerate}
 
@@ -282,13 +324,13 @@ LeCun Y., Cortes, C. and Burges C.J.C.
 
 
 \bibitem{LeCunn98}
-Lecun Y., Bengio Y., and Haffner P.
+LeCun Y., Bengio Y., and Haffner P.
  \emph{Gradient-Based Learning Applied to Document Recognition}
  Proceedings of the IEEE,
  1998.
 
 % \bibitem{MNIST_Original}
-% Lecun Y., Cortes C. Burges C.
+% LeCun Y., Cortes C. Burges C.
 % \emph{The MNIST database of handwritten digits} 
  
 \bibitem{ML_textcat}
@@ -296,6 +338,12 @@ Lecun Y., Bengio Y., and Haffner P.
   \emph{Machine Learning in Automated Text Categorization}
   ACM Computing Surveys (CSUR) 34
   2002.
+
+\bibitem{LeCun90}
+  LeCun Y. et al.
+  \emph{Handwritten Digit Recognition with a Back-Propagation Network}
+    Advances in Neural Information Processing Systems (NIPS)
+    1990
 
 \bibitem{Hastie}
  Hastie T., Tibshirani R. Friedman J.
@@ -312,11 +360,6 @@ Classification}
   ACM Computing Surveys (CSUR) 34
   2002.
 
-\bibitem{STN}
- Jaderberg, M., et al.
-  \emph{Spatial Transformer Networks}
-  ArXiv
-  2015
   
 \bibitem{Simard}
   Simard F., Steinkraus D., Platt J.
@@ -337,6 +380,13 @@ Vol 12, 2825-2830 2011
 Krizhevsky A., Sutskever I., and Hinton G.E.
 \emph{ImageNet Classification with Deep Convolution Neural Networks}
 	NIPS 2012
+
+
+\bibitem{STN}
+ Jaderberg, M., et al.
+  \emph{Spatial Transformer Networks}
+  ArXiv
+  2015
 
 \end{thebibliography}
 
