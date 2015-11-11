@@ -80,10 +80,10 @@ The first additional datasource involved transformations of the original MNIST d
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.30]{OriginalMNIST.png}
-	\includegraphics[scale=0.30]{Sigma=1e-2,Alpha=8.png}
-	\includegraphics[scale=0.30]{Sigma=3,Alpha=8.png}
-	\includegraphics[scale=0.30]{Sigma=3,Alpha=30.png}
+	\includegraphics[scale=0.20]{OriginalMNIST.png}
+	\includegraphics[scale=0.20]{Sigma=1e-2,Alpha=8.png}
+	\includegraphics[scale=0.20]{Sigma=3,Alpha=8.png}
+	\includegraphics[scale=0.20]{Sigma=3,Alpha=30.png}
 	\caption{The effect of varying $\sigma$ and $\alpha$}
 	\label{Perturbed}
 \end{figure}
@@ -132,6 +132,30 @@ Multi-class classification was implemented using a one-vs-all approach.
 \subsubsection{Support Vector Machine}
 
 \subsubsection{Fully Connected Feedforward Neural Network}
+
+Neural Networks (NN) have been shown to perform very well on image classification without requiring extensive feature extraction and processing \cite{LeCun90}, as the images are fed directly into the NN. This model is advantageous for many reasons, notably as it works with low level information and it allows us to work with high dimensional data.
+
+The NN structure is divided into three main components: 
+\begin{itemize}
+\item an input layer, consisting of nodes representing an input's features, in addition to a bias node.
+\item a set of hidden layers, which all include a bias node. To each node $i$ in a hidden layer is associated:
+\begin{itemize}
+\item $\delta_i$: the correction for node $i$
+\item $w_i$: a vector representing the weight of the connection from each node in the previous layer to node $i$
+\end{itemize}
+\item an output layer, which in the case of multi-label classification, includes $m$ output nodes $o_1,o_2,\dots,o_m$, each representing the probability that an example belongs to class $o_j$.
+\end{itemize}
+
+The outputs of hidden and output layer nodes are calculated with an activation function. There exists many choices, one of the most common being the sigmoid function:
+
+
+
+Learning a NN happens in 3 steps, which are repeated until convergence:
+\begin{itemize}
+\item \emph{Forward pass}:
+\item \emph{Back Propagation}:
+\item \emph{Gradient Descent}
+\end{itemize}
 
 \subsubsection{Convolution Neural Network}
 The convolution neural network \cite{LeCunn98} is a neural network with specialized layers in which not all neurons are connected to each other. Infact the main component is the subblayer (Fig \ref{convmaxlayer}) which contains the Convolution2D and MaxPool2d pair of layers. A convolution of an image is the result where each pixel is the weighted sum of its neighbouring pixels (moving window weighted sum). This means that our 2D convolution takes a weighted sum of each neighbouring pixel of the handwritten digit. \emph{num\_filters} is the number of moving windows of size \emph{filter\_size} $\times$ \emph{filter\_size} we do convolutions with. In MaxPooling we select the maximum in a region of size \emph{pool\_size} $\times$ \emph{pool\_size} pixels obtained from the 2D convolution.
@@ -243,13 +267,13 @@ LeCun Y., Cortes, C. and Burges C.J.C.
 
 
 \bibitem{LeCunn98}
-Lecun Y., Bengio Y., and Haffner P.
+LeCun Y., Bengio Y., and Haffner P.
  \emph{Gradient-Based Learning Applied to Document Recognition}
  Proceedings of the IEEE,
  1998.
 
 % \bibitem{MNIST_Original}
-% Lecun Y., Cortes C. Burges C.
+% LeCun Y., Cortes C. Burges C.
 % \emph{The MNIST database of handwritten digits} 
  
 \bibitem{ML_textcat}
@@ -257,6 +281,12 @@ Lecun Y., Bengio Y., and Haffner P.
   \emph{Machine Learning in Automated Text Categorization}
   ACM Computing Surveys (CSUR) 34
   2002.
+
+\bibitem{LeCun90}
+  LeCun Y. et al.
+  \emph{Handwritten Digit Recognition with a Back-Propagation Network}
+    Advances in Neural Information Processing Systems (NIPS)
+    1990
 
 \bibitem{CNN_committees}
  Claudiu D. and Meier U. et al.
