@@ -240,16 +240,7 @@ Further examination on the $4$-CNN shows that (without perturbed data) we conver
 	\caption{Loss in the 4CNN}
 \end{figure}
 
-As a final attempt to make our classifier more robust to unseen handwritten digits, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}.
-
-
-\section{Discussion}
-
-Since the data for handwritten digits is very non-linear, we did not expect linear classifiers to do well on such a dataset.
-
-A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to (1) our induced perturbations not being representative of the test set or (2) limitations in our network architecture which disallowed it from learning the features more robustly. It could be that since $50\%$ of the data was perturbed and the other not perturbed, that the classifier was unable to learn the features for each. 
-
-We investigate this by observing which classifiers consider which areas of the digits most important for classification in .
+As a final attempt to make our classifier more robust to unseen handwritten digits, we artificially inflated the dataset to include $50,000$ more images randomly perturbed bringing the total dataset size to $100,000$. We can compare how this classifier performs against the other $4$-CNNs in Fig \ref{CNNacc} and how quickly it converges to a solution in Fig \ref{C4NNacc}. The classifier trained with extra data scored $0.87520$ on the Kaggle leaderboard. The relative losses of both classifiers with and without extra data is found in \ref{both_C4NNacc}. Confusion matrices for each are found in Fig \ref{4CNN_confusion} (a) and (b).
 
 \begin{figure}[h]
 	\label{both_C4NNacc}
@@ -265,6 +256,19 @@ We investigate this by observing which classifiers consider which areas of the d
 	\includegraphics[scale=0.5]{4CNN_perturbed_confusion.pdf}
 	\caption{Confusion Matrix for 4CNN}
 \end{figure}
+\section{Discussion}
+
+Since the data for handwritten digits is very non-linear, we did not expect linear classifiers to do well on such a dataset.
+
+A suprising result was the fact that a $4$-CNN trained with perturbed data did not outperform the $4$-CNN with unperturbed data. This could be due to (1) our induced perturbations not being representative of the test set or (2) limitations in our network architecture which disallowed it from learning the features more robustly. It could be that since $50\%$ of the data was perturbed and the other $50\%$ unperturbed, the classifier was unable to learn the features for each. We investigate this by observing which parts of a digit were most critical to classifying a digit in both classifiers.
+
+\begin{figure}[h]
+	\label{crossacc}
+	\centering
+	\includegraphics[scale=0.6]{cross-classifier-acc.pdf}
+	\caption{Cross-classifier accuracy showing the accuracy of each classifier on a validation set}
+\end{figure}
+
 
 
 \subsection{Feature Extraction and Selection}
