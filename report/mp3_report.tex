@@ -104,6 +104,14 @@ The first additional datasource involved transformations of the original MNIST d
 
 The second datasource we attempted to generate was motivated by Patrice Simard et al. \cite{Simard}. This involved performing an affine deformation of the modified MNIST image. We refer to this additional dataset as "Perturbed Modified Digits" throughout the rest of the paper. The methodology for generating these perturbed digits is as follows. Given a $n\times n$ image, we first generate two random $n\times n$ displacement fields $?x(x',y')\rightarrow uniform(-1,1)$ and $?y(x',y')\rightarrow uniform(-1,1)$. We the convolve these displacement fields by a gaussian filter with $\mu = 0$ and $\sigma$ being a variable to the function which defaults to 3. After this we normalize the displacement fields by dividing each element in the field by the norm of the matrix. All the elements in both displacement fields are then multiplied by $\alpha$ which is a variable to the function. We then generate a new $n\times n$ image as such: for each pixel $(i,j)$ in the original, the new value at that pixel is the value at $?x(i,j),?y(i,j)$ in the original picture. Bilinear interpolation is used to determine the value of $new(i,j)=original(?x(i,j),?y(i,j))$ when $?x(i,j),?y(i,j)$ are not integers. For indices which appear out of bounds of the picture we simply used a default value of 0. Fig \ref{Perturbed} shows the effect of varying $\alpha$ and $\sigma$ on the original MNIST dataset (similar results occur with the modified dataset, but are harder to distinguish). The norm of the difference between the original MNIST image and the modified image are included in the pictures. We found that increasing $\alpha$ causes larger smooth, deformations while decreasing $\sigma$ causes the deformation to be more random and noisy. This is consistent with the findings in the literature.
 
+In the future we would like to explore different ways of transforming the data to generate more examples. Proposed methods include adding Gaussian noise to the image, randomly setting some pixels to 0, shifting the image in some direction (the images are currently mostly centered), or overlaying some patterns similar to those used to generate the modified MNIST digits dataset. Furthermore, it would be interesting to do a comparison of how adding more data from each of these new datasets affects the train and test error of a fixed classifier. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.40]{sample_of_images.png}
+	\caption{A sampling of the modified MNIST database. It is interesting to notice that the last digit is a 6, even though to the human eye it appears to be a 9.}
+	\label{MNISTSample}
+\end{figure}
 
 \subsection{Classification Algorithms}
 
@@ -113,11 +121,18 @@ In Logistic Regression, we want to estimate the probability that some random vec
 \begin{split}
 &P(Y=1~|~X) = \frac{P(X, Y=1)}{P(X)}\\
 &= \frac{ P(X~|~Y=1)\cdot P(Y=1) }{ P(X~|~Y=1)\cdot P(Y=1) + P(X~|~Y=0)\cdot P(Y=0) }\\
-& = \frac{1}{1 + \exp{(-a)}} = \sigma(a) \text{~(Sigmoid Function)}\\
+& = \sigma(a)\\
 \end{split}
 \end{equation*}
 
-where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio. By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
+where $a=\ln\Big(\frac{P(Y=1~|~X)}{P(Y=0~|~X)}\Big)$ is the log-odds ratio and $\sigma (a)$ is the Sigmoid function:
+
+\begin{equation}
+	\label{sig}
+	\sigma (x)= \frac{1}{1 + \exp{(-x)}} 
+\end{equation}
+
+By approximating the log-odds ratio as a linear decision boundary of the features and weights, $w^T x$ we can use this as an estimate of the class being $Y=1$. We can optimize the Log-likelihood or Cross-Entropy function:
 
 \begin{equation}
 	\label{LL}
@@ -139,6 +154,8 @@ Multi-class classification was implemented using a one-vs-all approach.
 \subsubsection{Support Vector Machines}
 We selected our kernel through cross validation and we tested polynomial kernels of degree 2-9, linear kernel, and an RBF kernel. The results for this cross validation and others can be seen in the results section, but the best kernel was the RBF kernel. The RBF (Radial Basis Function) kernel is defined as such \cite{Hastie}: \[K(x,x\prime )=exp(-\gamma\|x-x\prime \|^2)\] It is evident that gamma is the parameter which sets the approximately the inverse radius of influence of any training example $x_i$. A low value of gamma means that an examples will have an influence on training examples far away from itself, while a large gamma means that an example has a very local area of influence \cite{sklearn}.
 
+To select our features we broke the dataset into train, validate, and test sets with a 64, 16, 20 split. We fit our SVMs with a fixed gamma and C and varied the kernel type. We the selected the model which had the best score on the validation set. Using this kernel we performed a cross validation to pick the best C, gamma, number of PCA components, and whether to normalize our data, on the training set plus the validation set. Our final model was then evaluated on our test set and got a score of 36\%
+
 
 \subsubsection{Fully Connected Feedforward Neural Network}
 
@@ -155,7 +172,7 @@ The NN structure is divided into three main components:
 \item an output layer, which in the case of multi-label classification, includes $m$ output nodes $o_1,o_2,\dots,o_m$, each representing the probability that an example belongs to class $o_j$.
 \end{itemize}
 
-The outputs of hidden and output layer nodes are calculated with an activation function. There exists many choices, one of the most common being the sigmoid function:
+The outputs of hidden and output layer nodes are calculated with an activation function. There exists many choices, one of the most common being the previously defined sigmoid function (\ref{sig}).
 
 
 
